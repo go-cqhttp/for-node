@@ -4,5 +4,5 @@ package-lock.json
 node_modules
 .idea
 .vscode
-go-cqhttp
+go-cqhttp/*
 !go-cqhttp/.gitkeep
