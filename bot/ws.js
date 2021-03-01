@@ -1,6 +1,7 @@
 const WebSocket = require('ws')
+const config = require('../config')
 
-const ws = new WebSocket('ws://0.0.0.0:6700')
+const ws = new WebSocket(config.bot.ws)
 
 module.exports = {
   send(action, params) {

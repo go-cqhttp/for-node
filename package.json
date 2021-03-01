@@ -1,10 +1,11 @@
 {
   "private": true,
   "scripts": {
-    "start": "node src/index.js"
+    "start": "node index.js"
   },
   "dependencies": {
     "axios": "^0.21.1",
+    "node-plugin-dog": "go-cqhttp/node-plugin-dog",
     "ws": "^7.4.2"
   },
   "license": "MIT"
