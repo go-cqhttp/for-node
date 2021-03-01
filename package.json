@@ -1,12 +1,17 @@
 {
   "private": true,
   "scripts": {
-    "start": "node index.js"
+    "dev": "cross-env NODE_ENV=development nodemon index.js",
+    "start": "cross-env NODE_ENV=production pm2 start index.js --name go-cqhttp-node --log-date-format 'YYYY-MM-DD HH:mm:ss'",
+    "reload": "pm2 reload go-cqhttp-node"
   },
   "dependencies": {
     "axios": "^0.21.1",
-    "node-plugin-dog": "go-cqhttp/node-plugin-dog",
     "ws": "^7.4.2"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "nodemon": "^2.0.7"
+  }
 }

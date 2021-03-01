@@ -6,10 +6,8 @@ const plugins = Object.keys(config.plugin).map(name =>
 )
 
 ws.listen(data => {
-  console.log(data)
-
-  if (!('message' in data)) {
-    return
+  if (process.env.NODE_ENV === 'development') {
+    console.log(data)
   }
 
   plugins.forEach(plugin => plugin({ data, ws, http }))
