@@ -1,0 +1,11 @@
+{
+  "private": true,
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "ws": "^7.4.2"
+  },
+  "license": "MIT"
+}
