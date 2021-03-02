@@ -33,7 +33,7 @@ module.exports = {
 
 | 插件                    | 说明     |
 | ----------------------- | -------- |
-| [blank](plugin/blank)   | 空白项目 |
+| [blank](plugin/blank)   | 空白插件 |
 | [dog](plugin/dog)       | 舔狗日记 |
 | [fund](plugin/fund)     | 基金查询 |
 | [mm](plugin/mm)         | 美女图片 |
@@ -43,7 +43,7 @@ module.exports = {
 
 ### 开发插件
 
-复制 [plugin/blank](plugin/blank) 空白项目, 参考文档 https://docs.go-cqhttp.org 进行开发
+复制 [plugin/blank](plugin/blank), 参考其它插件和 https://docs.go-cqhttp.org 进行开发
 
 ```js
 /**
