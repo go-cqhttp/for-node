@@ -45,7 +45,7 @@ function runJs(input, options) {
         myResolve(result)
       }
     } catch (e) {
-      console.error('[run-js]', e)
+      // console.error('[run-js]', e)
       myResolve(e.message)
     }
   })

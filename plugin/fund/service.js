@@ -5,14 +5,14 @@
 const cheerio = require('cheerio')
 const axios = require('axios')
 const { getCenter } = require('./util')
-const fundcode_search = require('./fundcode_search')
-// const jjjz_gs = require('./jjjz_gs')
+const fundcodeSearch = require('./fundcode-search')
+// const jjjzGs = require('./jjjz-gs')
 
-const fundcode_name_map = new Map(fundcode_search.map(item => [item[2], item]))
-const fundcode_name_list = fundcode_search.map(item => item[2])
+const fundcodeNameMap = new Map(fundcodeSearch.map(item => [item[2], item]))
+const fundcodeNameList = fundcodeSearch.map(item => item[2])
 // cache
-const fundcode_code_map = new Map()
-const chicang_map = new Map()
+const fundcodeCodeMap = new Map()
+const chicangMap = new Map()
 
 const USER_AGENT =
   'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.96 Safari/537.36'
@@ -96,7 +96,7 @@ async function getChiCangHtml(code) {
 
 async function getChiCang(code) {
   try {
-    const cache = chicang_map.get(code)
+    const cache = chicangMap.get(code)
     if (cache && Date.now() - cache.time < 1000 * 60) {
       return cache.data
     }
@@ -118,7 +118,7 @@ async function getChiCang(code) {
     ]
 
     const data = '\n\n' + htmlData.join('\n')
-    chicang_map.set(code, { time: Date.now(), data })
+    chicangMap.set(code, { time: Date.now(), data })
 
     // const $ = cheerio.load(data)
     // data = '\n\n' + getChiCangTable($, '#position_shares table')
@@ -133,7 +133,7 @@ async function getChiCang(code) {
 
 async function getDetail(code) {
   try {
-    const cache = fundcode_code_map.get(code)
+    const cache = fundcodeCodeMap.get(code)
     if (cache && Date.now() - cache.time < 1000 * 60) {
       return cache.data
     }
@@ -156,7 +156,7 @@ async function getDetail(code) {
       return null
     }
 
-    fundcode_code_map.set(code, { time: Date.now(), data })
+    fundcodeCodeMap.set(code, { time: Date.now(), data })
     return data
   } catch (e) {
     console.error('[fund]', e)
@@ -164,7 +164,7 @@ async function getDetail(code) {
   }
 }
 
-async function getFund(codeOrName) {
+async function findFund(codeOrName) {
   codeOrName = codeOrName.toUpperCase()
 
   if (!codeOrName) {
@@ -181,9 +181,9 @@ async function getFund(codeOrName) {
   const list = (/^\d{6}$/.test(codeOrName)
     ? [await getDetail(codeOrName)]
     : await Promise.all(
-        fundcode_name_list
+        fundcodeNameList
           .filter(name => name.includes(codeOrName))
-          .map(name => fundcode_name_map.get(name)[0])
+          .map(name => fundcodeNameMap.get(name)[0])
           .slice(0, 9)
           .map(code => getDetail(code))
       )
@@ -212,6 +212,17 @@ async function getFund(codeOrName) {
       foot +
       chichang || '未找到该赌场'
   )
+}
+
+async function getFund(message) {
+  return [
+    {
+      type: 'text',
+      data: {
+        text: await findFund(message)
+      }
+    }
+  ]
 }
 
 module.exports = {

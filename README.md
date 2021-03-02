@@ -10,7 +10,7 @@
 
 - 运行 `go-cqhttp/下载的文件`, 根据提示填写 QQ 号和密码等信息, 参考文档 https://docs.go-cqhttp.org/guide/quick_start.html
 
-- 根目录运行 `npm run dev`, 参考文档 https://docs.go-cqhttp.org 进行开发
+- 根目录运行 `npm run dev`
 
 ## 插件
 
@@ -44,7 +44,7 @@ module.exports = {
 
 ### 开发插件
 
-复制 [plugin/blank](plugin/blank) 开始开发
+复制 [plugin/blank](plugin/blank) 空白项目, 参考文档 https://docs.go-cqhttp.org 进行开发
 
 ```js
 /**
