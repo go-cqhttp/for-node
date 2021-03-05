@@ -16,11 +16,13 @@
 
 ### 配置插件
 
+在 `config.js` 中配置的插件才会被加载, 并且需要在插件目录运行 `npm install` 安装依赖
+
 ```js
 // config.js
 module.exports = {
   plugin: {
-    // key: 可以是 npm 安装的全局包名, 也可以是相对路径
+    // key: 可以是 npm 包名, 也可以是相对路径
     // value: 传给插件的配置对象 {}
     'path-to-plugin': {}
   }
@@ -29,12 +31,9 @@ module.exports = {
 
 ### 内置插件
 
-- 没有配置的插件, 不会加载
-- 需要用到的插件, 请到插件目录 `npm install` 安装相关依赖
-
 | 插件                    | 说明     |
 | ----------------------- | -------- |
-| [blank](plugin/blank)   | 空白项目 |
+| [blank](plugin/blank)   | 空白插件 |
 | [dog](plugin/dog)       | 舔狗日记 |
 | [fund](plugin/fund)     | 基金查询 |
 | [mm](plugin/mm)         | 美女图片 |
@@ -44,7 +43,7 @@ module.exports = {
 
 ### 开发插件
 
-复制 [plugin/blank](plugin/blank) 空白项目, 参考文档 https://docs.go-cqhttp.org 进行开发
+复制 [plugin/blank](plugin/blank), 参考其它插件和 https://docs.go-cqhttp.org 进行开发
 
 ```js
 /**
@@ -71,3 +70,7 @@ module.exports = options => {
 - 代码更新: 在根目录运行 `npm run reload`
 
 > 因为 go-cqhttp 登录需要交互操作, 而 pm2 不支持, 所以这里用 screen 运行 go-cqhttp, 你也可以用其它方法后台运行
+
+## 其它
+
+- [go-cqhttp/java](https://github.com/go-cqhttp/java) - qq 机器人 java 版
