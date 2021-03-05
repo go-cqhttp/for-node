@@ -73,4 +73,4 @@ module.exports = options => {
 
 ## 其它
 
-- [go-cqhttp/java](https://github.com/go-cqhttp/java) qq 机器人 java 版
+- [go-cqhttp/java](https://github.com/go-cqhttp/java) - qq 机器人 java 版
