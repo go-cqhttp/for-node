@@ -27,7 +27,7 @@ function createWordCloud(text) {
     wordList
       .map(item => item.w)
       .join(',')
-      .replace(/\[CQ:.*?\]/gm, '')
+      .replace(/\[CQ:[^]]*?\]/gim, '')
   )
   const filename = path.join(
     os.tmpdir(),
