@@ -1,10 +1,6 @@
 const rimraf = require('rimraf')
-const Segment = require('segment')
 const { filename, knex } = require('./knex')
 const { createWordCloud } = require('./word-cloud')
-
-const segment = new Segment()
-segment.useDefault()
 
 async function initDatabase() {
   try {
@@ -52,14 +48,11 @@ async function getTodayMessageList(group_id) {
 async function getWordCloud(group_id) {
   try {
     const messageList = await getTodayMessageList(group_id)
-    const wordList = segment.doSegment(messageList.join(','), {
-      stripPunctuation: true
-    })
     return [
       {
         type: 'image',
         data: {
-          file: createWordCloud(wordList.map(item => item.w))
+          file: createWordCloud(messageList.join(','))
         }
       }
     ]
