@@ -69,10 +69,12 @@ async function getTop10(group_id) {
       {
         type: 'text',
         data: {
-          text: wordList
-            .slice(0, 10)
-            .map((item, index) => `${index + 1} ${item.w}`)
-            .join('\n')
+          text:
+            '今日热门词汇\n' +
+            wordList
+              .slice(0, 10)
+              .map((item, index) => `${index + 1} ${item.w}`)
+              .join('\n')
         }
       }
     ]
