@@ -24,7 +24,7 @@ function createWordCloud(text) {
       collocations: false
     })
   )
-  wc.generate(wordList.join(','))
+  wc.generate(wordList.map(item => item.w).join(','))
   wc.to_file(filename)
   // console.log(filename)
   return `file://${filename}`
