@@ -58,7 +58,7 @@ async function getTodayMessageList(group_id) {
 
 async function getTop10(group_id) {
   try {
-    const messageList = await getTodayMessageList({ group_id })
+    const messageList = await getTodayMessageList(group_id)
     let wordList = segment.doSegment(messageList.join(','), {
       stripPunctuation: true
     })
