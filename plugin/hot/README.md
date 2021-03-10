@@ -19,7 +19,10 @@ npx bip install wordcloud
 ```js
 module.exports = {
   plugin: {
-    './plugin/hot': {}
+    './plugin/hot': {
+      // 过滤某些 QQ 号, 不参与生成词云图
+      filterUserId: []
+    }
   }
 }
 ```

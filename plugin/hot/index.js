@@ -30,7 +30,7 @@ module.exports = options => {
             id: data.message_id
           }
         },
-        ...(await service.getWordCloud(data.group_id))
+        ...(await service.getWordCloud(data.group_id, options))
       ]
     })
   }

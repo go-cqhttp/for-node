@@ -31,7 +31,7 @@ async function saveMessage({ group_id, user_id, message_id, message, time }) {
   return id
 }
 
-async function getTodayMessageList(group_id) {
+async function getTodayMessageList(group_id, user_id_list = []) {
   const today = new Date()
   today.setHours(0)
   today.setMinutes(0)
@@ -39,15 +39,17 @@ async function getTodayMessageList(group_id) {
   const messageList = await knex('message')
     .column('message')
     .where('group_id', group_id)
+    .whereNotIn('user_id', user_id_list)
     .where('time', '>=', ~~(today.getTime() / 1000))
-  return messageList
-    .map(item => item.message.trim())
-    .filter(item => item)
+  return messageList.map(item => item.message.trim()).filter(item => item)
 }
 
-async function getWordCloud(group_id) {
+async function getWordCloud(group_id, options = {}) {
   try {
-    const messageList = await getTodayMessageList(group_id)
+    const messageList = await getTodayMessageList(
+      group_id,
+      options.filterUserId
+    )
     return [
       {
         type: 'image',
