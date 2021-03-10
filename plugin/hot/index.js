@@ -30,7 +30,7 @@ module.exports = options => {
             id: data.message_id
           }
         },
-        ...(await service.getTop10())
+        ...(await service.getTop10(data.group_id))
       ]
     })
   }

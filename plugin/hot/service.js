@@ -18,9 +18,9 @@ async function initDatabase() {
     rimraf.sync(filename)
     await knex.schema.createTable('message', table => {
       table.increments('id').primary()
-      table.integer('group_id')
-      table.integer('user_id')
-      table.integer('message_id')
+      table.integer('group_id').index()
+      table.integer('user_id').index()
+      table.integer('message_id').unique()
       table.text('message')
       table.integer('time')
     })
@@ -42,22 +42,23 @@ async function saveMessage({ group_id, user_id, message_id, message, time }) {
   return id
 }
 
-async function getTodayMessageList() {
+async function getTodayMessageList(group_id) {
   const today = new Date()
   today.setHours(0)
   today.setMinutes(0)
   today.setSeconds(0)
   const messageList = await knex('message')
     .column('message')
+    .where('group_id', group_id)
     .where('time', '>=', ~~(today.getTime() / 1000))
   return messageList
     .map(item => item.message.trim().toUpperCase())
     .filter(item => item)
 }
 
-async function getTop10() {
+async function getTop10(group_id) {
   try {
-    const messageList = await getTodayMessageList()
+    const messageList = await getTodayMessageList({ group_id })
     let wordList = segment.doSegment(messageList.join(','), {
       stripPunctuation: true
     })
