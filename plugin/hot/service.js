@@ -62,18 +62,27 @@ async function getTop10(group_id) {
     let wordList = segment.doSegment(messageList.join(','), {
       stripPunctuation: true
     })
-    wordList = _.uniqBy(wordList, 'w')
-    wordList.forEach(item => (item.p = item.p || 0))
-    wordList.sort((a, b) => b.p - a.p)
+    const wordTopN = {}
+    wordList.forEach(item => {
+      if (!wordTopN[item.w]) {
+        wordTopN[item.w] = 0
+      }
+      wordTopN[item.w]++
+    })
+    wordList = Object.keys(wordTopN).reduce(
+      (array, key) => [...array, { w: key, c: wordTopN[key] }],
+      []
+    )
+    wordList.sort((a, b) => b.c - a.c)
     return [
       {
         type: 'text',
         data: {
           text:
-            '今日热门词汇\n' +
+            '今日热门 TOP10\n' +
             wordList
               .slice(0, 10)
-              .map((item, index) => `${index + 1} ${item.w}`)
+              .map(item => `${item.w} ${item.c}`)
               .join('\n')
         }
       }
