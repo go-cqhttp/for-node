@@ -15,8 +15,8 @@ function createWordCloud(text) {
   const wc = new WordCloud(
     boa.kwargs({
       font_path,
-      width: 500,
-      height: 500,
+      width: 1000,
+      height: 1000,
       margin: 2,
       max_font_size: 100,
       background_color: 'white',
