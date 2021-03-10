@@ -13,6 +13,10 @@ module.exports = options => {
       return
     }
 
+    if (data.group_id !== 70577476) {
+      return 
+    }
+
     // 不要 await, 默默记录即可
     service.saveMessage(data)
 

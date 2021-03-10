@@ -52,7 +52,7 @@ async function getWordCloud(group_id) {
       {
         type: 'image',
         data: {
-          file: createWordCloud(messageList.map(item => item.w).join(','))
+          file: createWordCloud(messageList.join(','))
         }
       }
     ]
