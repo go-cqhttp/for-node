@@ -41,7 +41,7 @@ async function getTodayMessageList(group_id) {
     .where('group_id', group_id)
     .where('time', '>=', ~~(today.getTime() / 1000))
   return messageList
-    .map(item => item.message.trim().toUpperCase())
+    .map(item => item.message.trim())
     .filter(item => item)
 }
 
