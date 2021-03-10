@@ -26,7 +26,7 @@ function createWordCloud(text) {
   )
   wc.generate(wordList.join(','))
   wc.to_file(filename)
-  console.log(filename)
+  // console.log(filename)
   return `file://${filename}`
 }
 
