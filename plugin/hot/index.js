@@ -13,6 +13,11 @@ module.exports = options => {
       return
     }
 
+    // debug
+    if (data.group_id !== 70577476) {
+      return
+    }
+
     // 不要 await, 默默记录即可
     service.saveMessage(data)
 
@@ -30,7 +35,7 @@ module.exports = options => {
             id: data.message_id
           }
         },
-        ...(await service.getTop10(data.group_id))
+        ...(await service.getWordCloud(data.group_id))
       ]
     })
   }

@@ -1,15 +1,8 @@
 const rimraf = require('rimraf')
-const path = require('path')
 const Segment = require('segment')
-const _ = require('lodash')
-const filename = path.join(__dirname, 'word-cloud.sqlite')
-const knex = require('knex')({
-  client: 'sqlite3',
-  connection: {
-    filename
-  },
-  useNullAsDefault: true
-})
+const { filename, knex } = require('./knex')
+const { createWordCloud } = require('./word-cloud')
+
 const segment = new Segment()
 segment.useDefault()
 
@@ -56,32 +49,17 @@ async function getTodayMessageList(group_id) {
     .filter(item => item)
 }
 
-async function getTop10(group_id) {
+async function getWordCloud(group_id) {
   try {
     const messageList = await getTodayMessageList(group_id)
-    let wordList = segment.doSegment(messageList.join(','), {
+    const wordList = segment.doSegment(messageList.join(','), {
       stripPunctuation: true
     })
-    const wordTopN = {}
-    wordList.forEach(item => {
-      if (!wordTopN[item.w]) {
-        wordTopN[item.w] = 0
-      }
-      wordTopN[item.w]++
-    })
-    wordList = Object.keys(wordTopN).reduce(
-      (array, key) => [...array, { w: key, c: wordTopN[key] }],
-      []
-    )
-    wordList.sort((a, b) => b.c - a.c)
     return [
       {
-        type: 'text',
+        type: 'image',
         data: {
-          text: wordList
-            .slice(0, 10)
-            .map(item => `${item.w} ${item.c}`)
-            .join('\n')
+          file: createWordCloud(wordList.map(item => item.w))
         }
       }
     ]
@@ -101,5 +79,5 @@ async function getTop10(group_id) {
 module.exports = {
   initDatabase,
   saveMessage,
-  getTop10
+  getWordCloud
 }

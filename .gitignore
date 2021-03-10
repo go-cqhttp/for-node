@@ -6,4 +6,4 @@ node_modules
 .vscode
 go-cqhttp/*
 !go-cqhttp/.gitkeep
-plugin/hot/*.sqlite
+plugin/hot/word-cloud.sqlite
