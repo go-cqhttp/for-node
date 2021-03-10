@@ -9,7 +9,7 @@ const segment = new Segment()
 segment.useDefault()
 
 function createWordCloud(text) {
-  const wordList = segment.doSegment(text, {
+  const wordList = segment.doSegment(text.replace(/\[CQ:.*?\]/gim, ''), {
     stripPunctuation: true
   })
   const wc = new WordCloud(
@@ -18,17 +18,12 @@ function createWordCloud(text) {
       width: 1000,
       height: 1000,
       margin: 2,
-      max_font_size: 100,
-      background_color: 'white',
+      max_font_size: 200,
+      background_color: 'black',
       collocations: false
     })
   )
-  wc.generate(
-    wordList
-      .map(item => item.w)
-      .join(',')
-      .replace(/\[CQ:[^]]*?\]/gim, '')
-  )
+  wc.generate(wordList.map(item => item.w).join(','))
   const filename = path.join(
     os.tmpdir(),
     `go-cqhttp-node-hot-${Date.now()}.png`
