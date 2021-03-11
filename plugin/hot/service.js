@@ -54,7 +54,7 @@ async function getWordCloud(group_id, options = {}) {
       {
         type: 'image',
         data: {
-          file: createWordCloud(messageList.join(','))
+          file: createWordCloud(messageList.join(','), options.filterWord)
         }
       }
     ]

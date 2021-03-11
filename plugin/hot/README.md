@@ -21,7 +21,12 @@ module.exports = {
   plugin: {
     './plugin/hot': {
       // 过滤某些 QQ 号, 不参与生成词云图
-      filterUserId: []
+      filterUserId: [],
+      // 过滤某些词, 不参与生成词云图
+      filterWord: list => {
+        // 可自定义过滤方式
+        return list
+      }
     }
   }
 }

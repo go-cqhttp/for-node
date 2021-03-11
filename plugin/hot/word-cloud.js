@@ -8,8 +8,8 @@ const font_path = path.join(__dirname, 'FZLTHJW.TTF')
 const segment = new Segment()
 segment.useDefault()
 
-function createWordCloud(text) {
-  const wordList = segment.doSegment(text.replace(/\[CQ:.*?\]/gim, ''), {
+function createWordCloud(text, filterWord) {
+  let wordList = segment.doSegment(text.replace(/\[CQ:.*?\]/gim, ''), {
     stripPunctuation: true
   })
   const wc = new WordCloud(
@@ -23,7 +23,11 @@ function createWordCloud(text) {
       collocations: false
     })
   )
-  wc.generate(wordList.map(item => item.w).join(','))
+  wordList = wordList.map(item => item.w)
+  if (typeof filterWord === 'function') {
+    wordList = filterWord(wordList)
+  }
+  wc.generate(wordList.join(','))
   const filename = path.join(
     os.tmpdir(),
     `go-cqhttp-node-hot-${Date.now()}.png`
