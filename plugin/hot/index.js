@@ -14,7 +14,7 @@ module.exports = options => {
     }
 
     // 不要 await, 默默记录即可
-    service.saveMessage(data)
+    service.saveMessage(data, options)
 
     const message = data.message.toUpperCase().trim()
     if (!WHITE_LIST.includes(message)) {

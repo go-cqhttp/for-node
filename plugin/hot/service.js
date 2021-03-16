@@ -1,6 +1,6 @@
 const rimraf = require('rimraf')
 const { filename, knex } = require('./knex')
-const { createWordCloud } = require('./word-cloud')
+const WordCloud = require('./word-cloud')
 
 async function initDatabase() {
   try {
@@ -11,6 +11,7 @@ async function initDatabase() {
       table.integer('user_id').index()
       table.integer('message_id').unique()
       table.text('message')
+      table.text('word')
       table.integer('time')
     })
     console.log('[word-cloud]', '初始化数据库完毕')
@@ -20,41 +21,42 @@ async function initDatabase() {
   process.exit(0)
 }
 
-async function saveMessage({ group_id, user_id, message_id, message, time }) {
+async function saveMessage(
+  { group_id, user_id, message_id, message, time },
+  options
+) {
   const [id] = await knex('message').insert({
     group_id,
     user_id,
     message_id,
     message,
-    time
+    time,
+    word: WordCloud.getWord(message, options.filterWord)
   })
   return id
 }
 
-async function getTodayMessageList(group_id, user_id_list = []) {
+async function getTodayWordList(group_id, user_id_list = []) {
   const today = new Date()
   today.setHours(0)
   today.setMinutes(0)
   today.setSeconds(0)
   const messageList = await knex('message')
-    .column('message')
+    .column('word')
     .where('group_id', group_id)
     .whereNotIn('user_id', user_id_list)
     .where('time', '>=', ~~(today.getTime() / 1000))
-  return messageList.map(item => item.message.trim()).filter(item => item)
+  return messageList.map(item => item.word.trim()).filter(item => item)
 }
 
 async function getWordCloud(group_id, options = {}) {
   try {
-    const messageList = await getTodayMessageList(
-      group_id,
-      options.filterUserId
-    )
+    const wordList = await getTodayWordList(group_id, options.filterUserId)
     return [
       {
         type: 'image',
         data: {
-          file: createWordCloud(messageList.join(','), options.filterWord)
+          file: WordCloud.getImage(wordList)
         }
       }
     ]
