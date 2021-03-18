@@ -2,7 +2,7 @@ const random = require('random')
 const axios = require('axios')
 
 const max = 130
-const publicPath = 'https://cdn.jsdelivr.net/gh/ipchi9012/cos_pics/'
+const publicPath = 'https://gitee.com/npm/cos_pics/raw/master/'
 
 async function getCos() {
   try {
@@ -21,7 +21,7 @@ async function getCos() {
       {
         type: 'text',
         data: {
-          text: `\n${item.category} - ${item.suite}\n${file}`
+          text: `\n${item.category} - ${item.suite}`
         }
       }
     ]
