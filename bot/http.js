@@ -8,15 +8,10 @@ const http = axios.create({
 
 module.exports = {
   async send(action, params) {
-    try {
-      const { data } = http({
-        url: action,
-        data: params
-      })
-      return data
-    } catch (e) {
-      console.error(e)
-      return null
-    }
+    const { data } = await http({
+      url: action,
+      data: params
+    })
+    return data
   }
 }
