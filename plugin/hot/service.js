@@ -14,9 +14,9 @@ async function initDatabase() {
       table.text('word')
       table.integer('time')
     })
-    console.log('[word-cloud]', '初始化数据库完毕')
+    console.log('[hot]', '初始化数据库完毕')
   } catch (e) {
-    console.error('[word-cloud]', e)
+    console.error('[hot]', e)
   }
   process.exit(0)
 }
@@ -61,7 +61,7 @@ async function getWordCloud(group_id, options = {}) {
       }
     ]
   } catch (e) {
-    console.error('[word-cloud]', e)
+    console.error('[hot]', e)
     return [
       {
         type: 'text',
