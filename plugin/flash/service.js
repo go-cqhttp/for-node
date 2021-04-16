@@ -1,6 +1,6 @@
 async function getFlash(http, message) {
   try {
-    const file = message.match(/type=flash,file=(.*?).image/).pop()
+    const file = message.match(/type=flash,file=(.*?)\.image/).pop()
     const { data } = await http.send('get_image', { file: `${file}.image` })
     return [
       {
