@@ -5,7 +5,7 @@ async function getFlash(http, message) {
     return {
       type: "image",
       data: {
-        file: data.url,
+        url: data.url,
       },
     };
   } catch (e) {
