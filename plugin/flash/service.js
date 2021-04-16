@@ -4,9 +4,9 @@ async function getFlash(http, message) {
     const { data } = await http.send('get_image', { file: `${file}.image` })
     return [
       {
-        type: 'image',
+        type: 'text',
         data: {
-          file: data.url,
+          text: `[闪照图片地址]\n${data.url}`,
         },
       },
     ]
