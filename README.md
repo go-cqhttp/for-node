@@ -24,9 +24,9 @@ module.exports = {
   plugin: {
     // key: 可以是 npm 包名, 也可以是相对路径
     // value: 传给插件的配置对象 {}
-    "path-to-plugin": {},
+    'path-to-plugin': {},
   },
-};
+}
 ```
 
 ### 内置插件
@@ -52,7 +52,7 @@ module.exports = {
 /**
  * @param options 传给插件的配置
  */
-module.exports = (options) => {
+module.exports = options => {
   /**
    * @param data 收到的消息
    * @param ws 机器人 WebSocket 实例
@@ -60,8 +60,8 @@ module.exports = (options) => {
    */
   return async ({ data, ws, http }) => {
     // TODO:
-  };
-};
+  }
+}
 ```
 
 ## 部署 (Linux)

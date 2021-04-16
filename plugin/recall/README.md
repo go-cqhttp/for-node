@@ -5,9 +5,9 @@
 ```js
 module.exports = {
   plugin: {
-    "./plugin/recall": {},
+    './plugin/recall': {},
   },
-};
+}
 ```
 
 好友或者群消息被撤回, 机器人会复读被撤回的消息

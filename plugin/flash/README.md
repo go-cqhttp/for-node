@@ -5,9 +5,9 @@
 ```js
 module.exports = {
   plugin: {
-    "./plugin/flash": {},
+    './plugin/flash': {},
   },
-};
+}
 ```
 
 收到闪照, 机器人会复读闪照原图
