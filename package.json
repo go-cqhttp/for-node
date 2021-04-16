@@ -10,8 +10,11 @@
     "ws": "^7.4.2"
   },
   "license": "MIT",
+  "prettier": "@zhuweiyou/prettier-config",
   "devDependencies": {
+    "@zhuweiyou/prettier-config": "^1.0.0",
     "cross-env": "^7.0.3",
-    "nodemon": "^2.0.7"
+    "nodemon": "^2.0.7",
+    "prettier": "^2.2.1"
   }
 }
