@@ -24,7 +24,7 @@ module.exports = (options) => {
 
     if (data.message_type === "private") {
       ws.send("send_private_msg", {
-        user_id: data.group_id,
+        user_id: data.user_id,
         message,
       });
     }
