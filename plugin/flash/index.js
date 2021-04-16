@@ -20,6 +20,7 @@ module.exports = options => {
         group_id: data.group_id,
         message,
       })
+      return
     }
 
     if (data.message_type === 'private') {
