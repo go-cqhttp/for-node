@@ -24,23 +24,24 @@ module.exports = {
   plugin: {
     // key: 可以是 npm 包名, 也可以是相对路径
     // value: 传给插件的配置对象 {}
-    'path-to-plugin': {}
-  }
-}
+    "path-to-plugin": {},
+  },
+};
 ```
 
 ### 内置插件
 
-| 插件                    | 说明     |
-| ----------------------- | -------- |
-| [blank](plugin/blank)   | 空白插件 |
-| [dog](plugin/dog)       | 舔狗日记 |
-| [fund](plugin/fund)     | 基金查询 |
-| [hot](plugin/hot)       | 热门词汇 |
-| [mm](plugin/mm)         | 美女图片 |
-| [qrcode](plugin/qrcode) | 二维码   |
-| [run-js](plugin/run-js) | 运行 JS  |
-| [stock](plugin/stock)   | 股票查询 |
+| 插件                    | 说明       |
+| ----------------------- | ---------- |
+| [blank](plugin/blank)   | 空白插件   |
+| [dog](plugin/dog)       | 舔狗日记   |
+| [fund](plugin/fund)     | 基金查询   |
+| [hot](plugin/hot)       | 热门词汇   |
+| [mm](plugin/mm)         | 美女图片   |
+| [qrcode](plugin/qrcode) | 二维码     |
+| [recall](plugin/recall) | 消息防撤回 |
+| [run-js](plugin/run-js) | 运行 JS    |
+| [stock](plugin/stock)   | 股票查询   |
 
 ### 开发插件
 
@@ -50,7 +51,7 @@ module.exports = {
 /**
  * @param options 传给插件的配置
  */
-module.exports = options => {
+module.exports = (options) => {
   /**
    * @param data 收到的消息
    * @param ws 机器人 WebSocket 实例
@@ -58,8 +59,8 @@ module.exports = options => {
    */
   return async ({ data, ws, http }) => {
     // TODO:
-  }
-}
+  };
+};
 ```
 
 ## 部署 (Linux)
