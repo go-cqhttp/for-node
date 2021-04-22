@@ -1,13 +1,18 @@
 const service = require('./service')
-const pattern = /^(Q)/i
+
+const WHITE_LIST = ['壁纸']
+
 module.exports = options => {
   return async ({ data, ws, http }) => {
-        if (!data.message) {
-               return
-            }
-        if (data.message.includes('舔狗日记')||data.message.includes('壁纸')||pattern.test(data.message.trim())) {
-               return
-        }
+    if (!data.message) {
+      return
+    }
+
+    const message = data.message.toUpperCase().trim()
+    if (!WHITE_LIST.includes(message)) {
+      return
+    }
+
     if (data.message_type === 'group') {
       ws.send('send_group_msg', {
         group_id: data.group_id,
@@ -18,7 +23,7 @@ module.exports = options => {
               id: data.message_id
             }
           },
-          ...(await service.getMsg(data.message))
+          ...(await service.getCos())
         ]
       })
       return
@@ -27,7 +32,7 @@ module.exports = options => {
     if (data.message_type === 'private') {
       ws.send('send_private_msg', {
         user_id: data.user_id,
-        message: await service.getMsg(data.message)
+        message: await service.getCos()
       })
       return
     }
