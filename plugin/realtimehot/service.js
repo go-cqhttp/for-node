@@ -14,26 +14,40 @@ async function getList() {
       'https://s.weibo.com/top/summary?cate=realtimehot'
     )
     const $ = cheerio.load(data)
-    const top10 = [...$('.list_a > li')].slice(1, 11).map(item => {
-      const title = $(item).find('span').text()
-      const number = $(item).find('span > em').text()
-      return {
-        title: title.replace(number, '').trim(),
-        number,
-        type:
-          ICON_MAP[
-            ($(item).find('i').attr('class') || '').replace('icon icon_', '')
-          ] || '',
-      }
-    })
+    const top10 = [...$('.list_a > li')]
+      .slice(0, 20)
+      .map((item, index) => {
+        const title = $(item).find('span').text()
+        const number = $(item).find('span > em').text()
+        return {
+          title: title.replace(number, '').trim(),
+          number,
+          type:
+            index === 0
+              ? '顶'
+              : ICON_MAP[
+                  ($(item).find('i').attr('class') || '').replace(
+                    'icon icon_',
+                    ''
+                  )
+                ] || '',
+        }
+      })
+      .filter(item => item.type !== '荐')
+      .slice(0, 10)
     return [
       {
         type: 'text',
         data: {
           text:
-            '微博热搜\n' +
+            '[微博热搜]\n' +
             top10
-              .map(item => `[${item.type}${item.number}] ${item.title}`)
+              .map((item, index) =>
+                [index === 0 ? '' : index, item.type + item.number, item.title]
+                  .map(item => String(item).trim())
+                  .filter(item => item)
+                  .join(' ')
+              )
               .join('\n'),
         },
       },
