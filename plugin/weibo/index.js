@@ -1,6 +1,16 @@
 const service = require('./service')
 
-const WHITE_LIST = ['热搜', '微博热搜', 'RS', 'WBRS']
+const WHITE_LIST = [
+  '热搜',
+  '微博',
+  '微博热搜',
+  'WB',
+  'RS',
+  'WBRS',
+  'WEIBO',
+  'RESOU',
+  'WEIBORESOU',
+]
 
 module.exports = options => {
   return async ({ data, ws, http }) => {
@@ -8,7 +18,7 @@ module.exports = options => {
       return
     }
 
-    const message = data.message.toUpperCase().trim()
+    let [message, search] = data.message.toUpperCase().trim().split(/\s+/)
     if (!WHITE_LIST.includes(message)) {
       return
     }
@@ -23,7 +33,7 @@ module.exports = options => {
               id: data.message_id,
             },
           },
-          ...(await service.getList()),
+          ...(await service.getList(search)),
         ],
       })
       return
@@ -32,7 +42,7 @@ module.exports = options => {
     if (data.message_type === 'private') {
       ws.send('send_private_msg', {
         user_id: data.user_id,
-        message: await service.getList(),
+        message: await service.getList(search),
       })
       return
     }

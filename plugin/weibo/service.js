@@ -8,8 +8,19 @@ const ICON_MAP = {
   hot: '热',
 }
 
-async function getList() {
+async function getList(search) {
   try {
+    if (search) {
+      return [
+        {
+          type: 'text',
+          data: {
+            text: `https://s.weibo.com/weibo?q=${encodeURIComponent(search)}`,
+          },
+        },
+      ]
+    }
+
     const { data } = await axios(
       'https://s.weibo.com/top/summary?cate=realtimehot'
     )
@@ -31,10 +42,12 @@ async function getList() {
                     ''
                   )
                 ] || '',
+          url: $(item).find('a').attr('href'),
         }
       })
       .filter(item => item.type !== '荐')
       .slice(0, 10)
+
     return [
       {
         type: 'text',
@@ -43,7 +56,7 @@ async function getList() {
             '[微博热搜]\n' +
             top10
               .map((item, index) =>
-                [index === 0 ? '' : index, item.type + item.number, item.title]
+                [index, item.type + item.number, item.title]
                   .map(item => String(item).trim())
                   .filter(item => item)
                   .join(' ')
