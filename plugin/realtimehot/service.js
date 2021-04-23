@@ -30,7 +30,11 @@ async function getList() {
       {
         type: 'text',
         data: {
-          text: '微博热搜\n' + top10.map(item => `[${item.type}${item.number}] ${item.title}`).join('\n'),
+          text:
+            '微博热搜\n' +
+            top10
+              .map(item => `[${item.type}${item.number}] ${item.title}`)
+              .join('\n'),
         },
       },
     ]
@@ -50,5 +54,3 @@ async function getList() {
 module.exports = {
   getList,
 }
-
-getList().then(r => console.log(r[0].data))
