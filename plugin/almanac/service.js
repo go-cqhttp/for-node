@@ -40,6 +40,7 @@ async function getDetail() {
       data: {
         text: [
           `${info.year}-${info.month}-${info.day}`,
+          `星期${info.cnDay}`,
           `${info.lMonth}月${info.lDate}`,
           `${info.gzYear}年 ${info.animal}`,
           `${info.gzMonth}月 ${info.gzDate}日`,
