@@ -31,18 +31,19 @@ module.exports = {
 
 ### 内置插件
 
-| 插件                    | 说明       |
-| ----------------------- | ---------- |
-| [blank](plugin/blank)   | 空白插件   |
-| [dog](plugin/dog)       | 舔狗日记   |
-| [fund](plugin/fund)     | 基金查询   |
-| [hot](plugin/hot)       | 热门词汇   |
-| [mm](plugin/mm)         | 美女图片   |
-| [qrcode](plugin/qrcode) | 二维码     |
-| [weibo](plugin/weibo)   | 微博插件   |
-| [recall](plugin/recall) | 消息防撤回 |
-| [run-js](plugin/run-js) | 运行 JS    |
-| [stock](plugin/stock)   | 股票查询   |
+| 插件                      | 说明       |
+| ------------------------- | ---------- |
+| [almanac](plugin/almanac) | 黄历插件   |
+| [blank](plugin/blank)     | 空白插件   |
+| [dog](plugin/dog)         | 舔狗日记   |
+| [fund](plugin/fund)       | 基金查询   |
+| [hot](plugin/hot)         | 热门词汇   |
+| [mm](plugin/mm)           | 美女图片   |
+| [qrcode](plugin/qrcode)   | 二维码     |
+| [recall](plugin/recall)   | 消息防撤回 |
+| [run-js](plugin/run-js)   | 运行 JS    |
+| [stock](plugin/stock)     | 股票查询   |
+| [weibo](plugin/weibo)     | 微博插件   |
 
 ### 开发插件
 
