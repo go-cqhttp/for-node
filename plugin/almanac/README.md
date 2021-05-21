@@ -1,13 +1,13 @@
-# blank
+# almanac
 
-> 空白插件
+> 黄历插件
 
 ```js
 module.exports = {
   plugin: {
-    './plugin/blank': {}
-  }
+    './plugin/almanac': {},
+  },
 }
 ```
 
-TODO:
+用户发送 "黄历/HL", 机器人回复当天黄历
