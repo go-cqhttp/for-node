@@ -7,3 +7,4 @@ node_modules
 go-cqhttp/*
 !go-cqhttp/.gitkeep
 plugin/hot/word-cloud.sqlite
+plugin/chives/db.sqlite
