@@ -5,25 +5,25 @@ module.exports = options => {
     if (!data.message) {
       return
     }
-    //
-    // if (data.message_type === 'group') {
-    //   const message = await service.handler(data)
-    //   if (message) {
-    //     ws.send('send_group_msg', {
-    //       group_id: data.group_id,
-    //       message: [
-    //         {
-    //           type: 'reply',
-    //           data: {
-    //             id: data.message_id
-    //           }
-    //         },
-    //         ...message
-    //       ]
-    //     })
-    //   }
-    //   return
-    // }
+
+    if (data.message_type === 'group') {
+      const message = await service.handler(data)
+      if (message) {
+        ws.send('send_group_msg', {
+          group_id: data.group_id,
+          message: [
+            {
+              type: 'reply',
+              data: {
+                id: data.message_id
+              }
+            },
+            ...message
+          ]
+        })
+      }
+      return
+    }
 
     if (data.message_type === 'private') {
       const message = await service.handler(data)

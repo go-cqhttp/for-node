@@ -31,7 +31,6 @@ async function handler({ user_id, message }) {
     return
   }
 
-  // 查已有的列表
   if (!operator && !code) {
     return await getFundList(user_id)
   }
@@ -41,7 +40,9 @@ async function handler({ user_id, message }) {
   }
 
   if (
-    ['删除', '移除', '删', 'REMOVE', 'DEELTE'].includes(operator.toUpperCase())
+    ['删除', '移除', '删', 'REMOVE', 'DEELTE', 'DEL'].includes(
+      operator.toUpperCase()
+    )
   ) {
     return await removeFund(user_id, code)
   }
@@ -129,6 +130,7 @@ async function getFundList(user_id) {
       .map(chives => chives.fund_code)
       .map(getFundDetail)
   )
+  list.sort((a, b) => b.gszzl - a.gszzl)
   return [
     {
       type: 'text',
