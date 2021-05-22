@@ -135,7 +135,7 @@ async function getFundList(user_id) {
     {
       type: 'text',
       data: {
-        text: list.map(formatFund).join('\n') || '您还不是韭菜, 快来添加基金吧',
+        text: list.map(formatFund).join('\n') || '您还不是韭菜, 快来添加基金吧\n韭菜/JC/暴富/BF 添加/ADD/删除/DEL 基金代码',
       },
     },
   ]
