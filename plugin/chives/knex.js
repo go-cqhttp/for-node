@@ -3,9 +3,9 @@ const filename = path.join(__dirname, 'db.sqlite')
 const knex = require('knex')({
   client: 'sqlite3',
   connection: {
-    filename
+    filename,
   },
-  useNullAsDefault: true
+  useNullAsDefault: true,
 })
 
 module.exports = { filename, knex }
