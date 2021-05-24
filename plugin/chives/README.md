@@ -2,6 +2,14 @@
 
 > 韭菜插件
 
+初始化 sqlite 数据库
+
+```bash
+node init.js
+```
+
+配置插件
+
 ```js
 module.exports = {
   plugin: {
