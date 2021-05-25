@@ -40,7 +40,7 @@ async function handler({ user_id, message }) {
   }
 
   if (
-    ['删除', '移除', '删', 'REMOVE', 'DEELTE', 'DEL'].includes(
+    ['删除', '移除', '删', 'REMOVE', 'DELETE', 'DEL'].includes(
       operator.toUpperCase()
     )
   ) {
