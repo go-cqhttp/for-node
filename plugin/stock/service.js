@@ -87,7 +87,7 @@ async function getDetail(key, typeName, title = '') {
       [id*=popup],
       [class*=pop],
       [class*=popup],
-      .dc-fb,
+      [class*=dc],
       .icons-index-menu3,
       .icons-index-back,
       .wapfooter,
