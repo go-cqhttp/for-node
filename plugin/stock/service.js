@@ -112,7 +112,7 @@ async function getDetail(key, typeName, title = '') {
       }
 
       .stock-detail {
-        // padding-top: 0 !important;
+        padding-top: 0 !important;
       }
     `
     })
