@@ -48,7 +48,7 @@ async function getDetail(key, typeName, title = '') {
   let browser
   try {
     browser = await puppeteer.launch({
-      // headless: false,
+      headless: process.env.NODE_ENV === 'production',
       args: ['--no-sandbox', '--disable-setuid-sandbox']
     })
     const page = await browser.newPage()
@@ -112,7 +112,7 @@ async function getDetail(key, typeName, title = '') {
       }
 
       .stock-detail {
-        padding-top: 0 !important;
+        // padding-top: 0 !important;
       }
     `
     })
@@ -136,7 +136,7 @@ async function getDetail(key, typeName, title = '') {
     console.error('[stock]', e)
     return e.message || '未知错误'
   } finally {
-    if (browser) {
+    if (browser && process.env.NODE_ENV === 'production') {
       await browser.close()
     }
   }
