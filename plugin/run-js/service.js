@@ -24,12 +24,12 @@ function handleOutput(output) {
 
 function runJs(input, options) {
   return new Promise(resolve => {
-    const myResolve = output => {
+    const myResolve = (output, error) => {
       resolve([
         {
           type: 'text',
           data: {
-            text: handleOutput(output),
+            text: (error ? '[运行失败]' : '[运行成功]') + '\n' + handleOutput(output),
           },
         },
       ])
@@ -55,7 +55,7 @@ function runJs(input, options) {
       }
     } catch (e) {
       // console.error('[run-js]', e)
-      myResolve(e.message)
+      myResolve(e.message, true)
     }
   })
 }
