@@ -110,10 +110,6 @@ async function getDetail(key, typeName, title = '') {
       .comm-nav {
         top: 0 !important;
       }
-
-      .stock-detail {
-        padding-top: 0 !important;
-      }
     `
     })
     await page.addScriptTag({
