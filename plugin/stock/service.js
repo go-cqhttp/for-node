@@ -83,6 +83,7 @@ async function getDetail(key, typeName, title = '') {
     await page.goto(`https://wap.eastmoney.com/quote/stock/${key}.html`)
     await page.addStyleTag({
       content: `
+      #openinapp,
       [id*=pop],
       [id*=popup],
       [class*=pop],
@@ -109,6 +110,14 @@ async function getDetail(key, typeName, title = '') {
 
       .comm-nav {
         top: 0 !important;
+      }
+      
+      .stock-detail {
+        padding-top: 0 !important;
+      }
+      
+      body {
+        padding-top: 43px !important;
       }
     `
     })
