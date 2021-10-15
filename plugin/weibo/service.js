@@ -19,10 +19,13 @@ function searchWeibo(q) {
   ]
 }
 
-async function listResou() {
-  const { data } = await axios(
-    'https://s.weibo.com/top/summary?cate=realtimehot'
-  )
+async function listResou(cookie) {
+  const { data } = await axios({
+    url: 'https://s.weibo.com/top/summary?cate=realtimehot',
+    headers: {
+      cookie
+    }
+  })
   const $ = cheerio.load(data)
   return [...$('.list_a > li')]
     .slice(0, 20)
@@ -48,7 +51,7 @@ async function listResou() {
     .slice(0, 10)
 }
 
-async function getList(search) {
+async function getList(search, options = {}) {
   try {
     if (search) {
       return searchWeibo(search)
@@ -60,7 +63,7 @@ async function getList(search) {
         data: {
           text:
             '微博热搜\n\n' +
-            (await listResou()).map(item => item.title.trim()).join('\n'),
+            (await listResou(options.cookie)).map(item => item.title.trim()).join('\n'),
         },
       },
     ]

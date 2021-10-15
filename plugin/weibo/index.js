@@ -33,7 +33,7 @@ module.exports = options => {
               id: data.message_id,
             },
           },
-          ...(await service.getList(search)),
+          ...(await service.getList(search, options)),
         ],
       })
       return
@@ -42,7 +42,7 @@ module.exports = options => {
     if (data.message_type === 'private') {
       ws.send('send_private_msg', {
         user_id: data.user_id,
-        message: await service.getList(search),
+        message: await service.getList(search, options),
       })
       return
     }

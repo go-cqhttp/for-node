@@ -5,7 +5,9 @@
 ```js
 module.exports = {
   plugin: {
-    './plugin/weibo': {},
+    './plugin/weibo': {
+      cookie: '现在要登录才能抓取了, 需要传入一个登录过微博的cookie'
+    },
   },
 }
 ```
