@@ -6,7 +6,7 @@ module.exports = options => {
         if (!data.message) return
         if (data.message_type !== 'group') return
         if (data.message[0] !== '!') return // 指令用 ! 开头
-        const msg = data.message.substring(1).toLowerCase().trim()
+        const msg = data.message.substring(1).trim()
         const command = msg.split(' ')
         const [cmd, ...args] = command
 
@@ -34,7 +34,10 @@ async function context_send(context, data, msg) {
               id: data.message_id
             }
           },
-          msg
+          {
+              type: 'text',
+              data: { text: msg }
+          }
         ]
     })
 }

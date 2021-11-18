@@ -1,5 +1,4 @@
 const { ws, http } = require('./bot')
-const { startWS } = require('./bot/ws')
 const config = require('./config')
 const { connect } = require('./el/redis_api')
 
@@ -25,8 +24,9 @@ async function executePlugins(data) {
 
 
 // 同时启动 Redis 和 WS 监控
-Promise.all([startWS, connect])
-  .then(([ws, client]) => {
+console.log('正在启动 vup monitors...')
+Promise.all([ws.startWS(), connect()])
+  .then(([socket, client]) => {
     ws.listen(data => {
       if (process.env.NODE_ENV === 'development') {
         console.log(data)

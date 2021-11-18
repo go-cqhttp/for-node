@@ -1,5 +1,8 @@
 const { CommandExecutor } = require('../el/types');
 const storer = require('../el/data-storer')
+const { validUser } = require('../el/utils')
+
+const user_cache = {}
 
 class AddUser extends CommandExecutor {
 
@@ -12,6 +15,19 @@ class AddUser extends CommandExecutor {
         if (isNaN(uid)){
             await send(`${uid} 不是一个有效的用户id`)
             return
+        }
+        if (user_cache[uid] !== undefined) {
+            if (!user_cache[uid]) { // invalid room
+                await send(`找不到用户 ${uid}`)
+                return
+            }
+        }else{
+            const valid = await validUser(uid)
+            user_cache[uid] = valid
+            if (!valid){
+                await send(`找不到用户 ${uid}`)
+                return
+            }
         }
         const group_id = data.group_id
         const json = await storer.read()

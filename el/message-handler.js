@@ -1,11 +1,8 @@
-
-const {ws, http} = require('../bot/index')
-
-
 const exception = new Set()
 
 function handleMessage(string){
     try {
+        const {ws, http} = require('../bot/index')
         const config = require('../config')
         const message = JSON.parse(string)
         if (!config.ws_handles) return
