@@ -4,6 +4,10 @@ function handleMessage(string){
     try {
         const {ws, http} = require('../bot/index')
         const config = require('../config')
+        if (typeof string !== 'string') {
+            console.warn(`接收的讯息类型为 ${typeof string} 而不是 string, 已略过`)
+            return
+        }
         const message = JSON.parse(string)
         if (!config.ws_handles) return
         if (exception.has(message.command)) return

@@ -1,4 +1,4 @@
-const { existsSync, promises: fs } = require('fs')
+const { existsSync, writeFileSync , promises: fs } = require('fs')
 
 
 const PATH = './data/storage.json'
@@ -17,6 +17,8 @@ const DEFAULT_VALUES = {
     }
 }
 
+const write_transactions = []
+
 const actions = {
     // this.update(data => { ... })
     update: async (update) => {
@@ -26,8 +28,7 @@ const actions = {
     },
 
     save: async (data) => {
-        await fs.writeFile(PATH, JSON.stringify(data))
-        actions.clearCache()
+       write_transactions.push(JSON.stringify(data))
     },
 
     read: async () => {
@@ -54,3 +55,16 @@ module.exports = actions
 function isEmpty(o){
     return Object.keys(o).length == 0
 }
+
+setInterval(() => {
+    const data = write_transactions.shift()
+    if (!data) return
+    try {
+        writeFileSync(PATH, data)
+        actions.clearCache()
+        console.log(`离线数据储存已更新。`)
+    }catch(err){
+        console.warn(`执行离线储存时发生错误: ${err?.message ?? err}`)
+        console.warn(err)
+    }
+}, 500)

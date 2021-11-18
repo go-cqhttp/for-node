@@ -21,17 +21,19 @@ module.exports = {
         }catch(err){
             console.warn(`連接到 Redis 伺服器時出現錯誤: ${err?.message ?? err}, 五秒後重連...`)
             await utils.sleep(5000)
-            return await this.connect()
+            return await module.exports.connect()
         }
     },
 
-    listen: async (room) => {
+    listen: async (room, update_storage = true) => {
         if (subscribing.has(room)) return false
         await client.subscribe(`blive:${room}`, handleMessage)
         subscribing.add(room)
-        await update(data => {
-            data.blive.subscribing = [...subscribing]
-        })
+        if (update_storage){
+            await update(data => {
+                data.blive.subscribing = [...subscribing]
+            })
+        }
         return true
     },
 
@@ -53,7 +55,7 @@ async function fetchSubscribing(){
     const blive = data['blive']
     const rooms = blive.subscribing ?? []
     for (const room of rooms){
-        await module.exports.listen(room)
+        await module.exports.listen(room, false)
     }
     return rooms.length
 }
