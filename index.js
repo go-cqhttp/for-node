@@ -1,14 +1,37 @@
 const { ws, http } = require('./bot')
+const { startWS } = require('./bot/ws')
 const config = require('./config')
+const { connect } = require('./el/redis_api')
 
 const plugins = Object.keys(config.plugin).map(name =>
   require(name)(config.plugin[name] || {})
 )
 
-ws.listen(data => {
-  if (process.env.NODE_ENV === 'development') {
-    console.log(data)
-  }
 
-  plugins.forEach(plugin => plugin({ data, ws, http }))
-})
+
+async function executePlugins(data) {
+  for (const plugin of plugins) {
+    try {
+      const result = await plugin({ data, ws, http })
+      if (result) { // 停止往下执行
+        break
+      }
+    } catch (err) {
+      console.warn(`执行插件时出现错误: ${err?.message}`)
+      console.error(err)
+    }
+  }
+}
+
+
+// 同时启动 Redis 和 WS 监控
+Promise.all([startWS, connect])
+  .then(([ws, client]) => {
+    ws.listen(data => {
+      if (process.env.NODE_ENV === 'development') {
+        console.log(data)
+      }
+      executePlugins(data)
+    })
+  })
+  .catch(console.error)

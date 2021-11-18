@@ -1,9 +1,0 @@
-{
-  "dependencies": {
-    "@pipcook/boa": "^1.2.0-beta.0",
-    "knex": "^0.95.1",
-    "rimraf": "^3.0.2",
-    "segment": "^0.1.3",
-    "sqlite3": "^5.0.2"
-  }
-}

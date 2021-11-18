@@ -1,9 +1,0 @@
-{
-  "name": "yiqing",
-  "version": "1.0.0",
-  "main": "index.js",
-  "license": "MIT",
-  "dependencies": {
-    "puppeteer": "^8.0.0"
-  }
-}
