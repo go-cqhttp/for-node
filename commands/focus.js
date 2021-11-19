@@ -99,7 +99,7 @@ class RemoveFocus extends CommandExecutor {
 
         const focus_users = blive.focus_users
 
-        if (!focus_users[data.group_id] || !focus_users[data.group_id].includes(uid)) {
+        if (!focus_users[data.group_id]) {
             await send(`用户 ${uid} 不在群 ${data.group_id} 的注视用户名单内。`)
             return
         }
@@ -107,6 +107,11 @@ class RemoveFocus extends CommandExecutor {
         const list = focus_users[data.group_id]
         const index = list.indexOf(uid)
 
+        if (index == -1){
+            await send(`用户 ${uid} 不在群 ${data.group_id} 的注视用户名单内。`)
+            return
+        }
+        
         list.splice(index, 1)
 
         await storer.save(json)

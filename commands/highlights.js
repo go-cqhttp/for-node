@@ -118,7 +118,7 @@ class RemoveUser extends CommandExecutor {
 
         const highlight = blive[key]
 
-        if (!highlight[id] || !highlight.includes(id)) {
+        if (!highlight[id]) {
             await send(non_exist)
             return
         }
@@ -126,6 +126,12 @@ class RemoveUser extends CommandExecutor {
         const list = highlight[id]
 
         const index = list.indexOf(uid)
+
+        if (index == -1){
+            await send(non_exist)
+            return
+        }
+
         list.splice(index, 1)
 
         if (list.length == 0) {
