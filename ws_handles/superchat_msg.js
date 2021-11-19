@@ -24,6 +24,10 @@ module.exports = async ({ ws, http }, data) => {
     if (sends.length > 0) {
         Promise.all(sends)
         .then(sent => console.log(`高亮醒目留言通知已发送给 ${sent.length} 个QQ群组。`))
+        .catch(err => {
+            console.warn(`發送广播通知时出现错误: ${err?.message}`)
+            console.warn(err)
+        })
     }
 
     // === 广播到 QQ号 ===
@@ -31,6 +35,10 @@ module.exports = async ({ ws, http }, data) => {
     if (private_sends.length > 0) {
         Promise.all(private_sends)
             .then(sent => console.log(`高亮醒目留言通知已发送给 ${sent.length} 个QQ群组。`))
+            .catch(err => {
+                console.warn(`發送广播通知时出现错误: ${err?.message}`)
+                console.warn(err)
+            })
     }
 
 }

@@ -17,13 +17,20 @@ module.exports = async ({ws, http}, data) => {
     if (sends.length > 0) {
         Promise.all(sends)
             .then(sent => console.log(`房间进入通知已发送给 ${sent.length} 个QQ群组。`))
+            .catch(err => {
+                console.warn(`發送广播通知时出现错误: ${err?.message}`)
+                console.warn(err)
+            })
     }
 
     // === 广播到 QQ 号 ===
     const private_sends =  filterAndBroadcast(highlight_private, uid, sendMessagePrivate, ws, messages)
-
     if (private_sends.length > 0){
         Promise.all(private_sends)
             .then(sent => console.log(`房间进入通知已发送给 ${sent.length} 个QQ号。`))
+            .catch(err => {
+                console.warn(`發送广播通知时出现错误: ${err?.message}`)
+                console.warn(err)
+            })
     }
 }

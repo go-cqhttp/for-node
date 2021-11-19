@@ -31,8 +31,11 @@ module.exports = {
         return data.code == 0
     },
 
-    filterAndBroadcast: async (highlight, uid, send, ctx, messages) => {
-        if (!highlight) return
+    filterAndBroadcast: (highlight, uid, send, ctx, messages) => {
+        if (!highlight) {
+            console.warn('高亮列表为空，将返回 []')
+            return []
+        }
         return Object.entries(highlight)
                     .filter(([id, users]) => users.includes(uid))
                     .map(([id, users]) => id)

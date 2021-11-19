@@ -8,7 +8,6 @@ module.exports = async ({ ws, http }, data) => {
     const [uid, uname] = info[2]
 
     const blive = (await storer.read())?.blive
-    console.log(blive)
     const { highlight, highlight_private } = blive ?? { highlight: {}, highlight_private: {} }
 
     const messages = [
@@ -21,6 +20,10 @@ module.exports = async ({ ws, http }, data) => {
     if (sends.length > 0) {
         Promise.all(sends)
             .then(sent => console.log(`高亮弹幕通知已发送给 ${sent.length} 个QQ群组。`))
+            .catch(err => {
+                console.warn(`發送广播通知时出现错误: ${err?.message}`)
+                console.warn(err)
+            })
     }
     // =========
 
@@ -29,6 +32,10 @@ module.exports = async ({ ws, http }, data) => {
     if (private_sends.length > 0) {
         Promise.all(private_sends)
                 .then(sent => console.log(`高亮弹幕通知已发送给 ${sent.length} 个QQ号`))
+                .catch(err => {
+                    console.warn(`發送广播通知时出现错误: ${err?.message}`)
+                    console.warn(err)
+                })
     }
 
 }
