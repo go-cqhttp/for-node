@@ -176,7 +176,7 @@ class HighLighting extends CommandExecutor {
         if (!group_id){
             id = data.sender.user_id
             key = KEY_PRIVATE
-            lst_str `你的高亮用戶列表: `
+            lst_str = `你的高亮用戶列表: `
         }
 
         if (!blive[key]){

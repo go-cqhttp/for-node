@@ -8,7 +8,7 @@ module.exports = async ({ws, http}, data) => {
     const { uname, uid } = enter
 
     const blive = (await storer.read())?.blive
-    const { highlight, highlight_private } = blive?.highlight ?? { highlight: {}, highlight_private: {} }
+    const { highlight, highlight_private } = blive ?? { highlight: {}, highlight_private: {} }
 
     const messages =  `噔噔咚！你所关注的用户 ${uname} 进入了 ${liveName} 的直播间。`
 

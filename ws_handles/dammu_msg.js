@@ -8,7 +8,8 @@ module.exports = async ({ ws, http }, data) => {
     const [uid, uname] = info[2]
 
     const blive = (await storer.read())?.blive
-    const { highlight, highlight_private } = blive?.highlight ?? { highlight: {}, highlight_private: {} }
+    console.log(blive)
+    const { highlight, highlight_private } = blive ?? { highlight: {}, highlight_private: {} }
 
     const messages = [
         `${uname} 在 ${liveName} 的直播间发送了一则讯息`,

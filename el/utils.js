@@ -32,6 +32,7 @@ module.exports = {
     },
 
     filterAndBroadcast: async (highlight, uid, send, ctx, messages) => {
+        if (!highlight) return
         return Object.entries(highlight)
                     .filter(([id, users]) => users.includes(uid))
                     .map(([id, users]) => id)

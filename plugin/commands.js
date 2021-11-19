@@ -10,7 +10,7 @@ module.exports = options => {
         const is_group = data.message_type === 'group'
 
         const isAdmin = is_group ? data.sender.role === 'admin' : false
-        const insideOwners = owners && data.sender.user_id in owners
+        const insideOwners = owners && owners.includes(data.sender.user_id)
 
         if (!isAdmin && !insideOwners){
             // maybe say something for no permission

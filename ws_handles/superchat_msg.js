@@ -11,7 +11,7 @@ module.exports = async ({ ws, http }, data) => {
     const { uname } = user_info
 
     const blive = (await storer.read())?.blive
-    const { highlight, highlight_private } = blive?.highlight ?? { highlight: {}, highlight_private: {} }
+    const { highlight, highlight_private } = blive ?? { highlight: {}, highlight_private: {} }
 
     const messages = [
         `在 ${liveName} 的直播间收到来自 ${uname} 的醒目留言`,
