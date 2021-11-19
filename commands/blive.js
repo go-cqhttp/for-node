@@ -1,14 +1,11 @@
 const { CommandExecutor } = require("../el/types");
 const redis = require('../el/redis_api')
 const { validRoom } = require('../el/utils')
-
-const room_cache = {}
-
 class BLiveListen extends CommandExecutor {
 
 
     async execute({ send, data }, args) {
-        if (!args[0]){
+        if (!args[0]) {
             await send('缺少参数: <房间号码>')
             return
         }
@@ -17,31 +14,25 @@ class BLiveListen extends CommandExecutor {
             await send(`${args[0]} 不是一个有效的房间号`)
             return
         }
-        if (room_cache[room] !== undefined) {
-            if (!room_cache[room]) { // invalid room
-                await send(`找不到房间 ${room}`)
-                return
-            }
-        }else{
-            const valid = await validRoom(room)
-            room_cache[room] = valid
-            if (!valid){
-                await send(`找不到房间 ${room}`)
-                return
-            }
+
+        const valid = await validRoom(room)
+        if (!valid) {
+            await send(`找不到房间 ${room}`)
+            return
         }
+
         const result = await redis.listen(room)
         const msg = result ? `已成功启动监听房间(${room})` : `该房间已启动监听(${room})`
         await send(msg)
     }
-    
+
 }
 
 
 class BLiveTerminate extends CommandExecutor {
 
     async execute({ send, data }, args) {
-        if (!args[0]){
+        if (!args[0]) {
             await send('缺少参数: <房间号码>')
             return
         }

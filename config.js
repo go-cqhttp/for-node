@@ -1,6 +1,9 @@
+const { CommandExecutor } = require('./el/types')
+
+// commands
 const blive = require('./commands/blive')
 const highlights = require('./commands/highlights')
-const { CommandExecutor } = require('./el/types')
+const focus = require('./commands/focus')
 
 // ws handles
 const danmu_msg = require('./ws_handles/dammu_msg')
@@ -25,6 +28,7 @@ module.exports = {
   commands: {
     'B站直播': blive,
     '高亮': highlights,
+    '注视': focus,
     'help': Help
   },
   ws_handles: {

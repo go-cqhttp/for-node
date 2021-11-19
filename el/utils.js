@@ -1,5 +1,11 @@
 const { default: axios } = require("axios")
 
+
+const valid_caches = {
+    rooms: {},
+    users: {}
+}
+
 module.exports = {
     sleep: async (ms) => new Promise((res,) => setTimeout(res, ms)),
 
@@ -18,6 +24,9 @@ module.exports = {
     },
 
     validRoom: async (room) => {
+        if (valid_caches.rooms[room] !== undefined){
+            return valid_caches.rooms[room]
+        }
         const res = await axios.get(`https://api.live.bilibili.com/room/v1/Room/room_init?id=${room}`)
         if (res.status !== 200) throw new Error(res.statusText)
         const data = res.data
@@ -25,6 +34,9 @@ module.exports = {
     },
 
     validUser: async (uid) => {
+        if (valid_caches.users[uid] !== undefined) {
+            return valid_caches.users[uid]
+        }
         const res = await axios.get(`https://api.bilibili.com/x/space/acc/info?mid=${uid}&jsonp=jsonp`)
         if (res.status !== 200) throw new Error(res.statusText)
         const data = res.data
