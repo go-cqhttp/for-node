@@ -8,7 +8,7 @@ class AddUser extends CommandExecutor {
 
     async execute({ send, data }, args) {
         if(!args[0]) {
-            await send('缺少参数: <用户id>')
+            await send('缺少参数: <用户id> [群id]')
             return
         }
         const uid = Number.parseInt(args[0])
@@ -29,28 +29,41 @@ class AddUser extends CommandExecutor {
                 return
             }
         }
-        const group_id = data.group_id
+        const group_id = data.group_id ?? args[1]
         const json = await storer.read()
         const blive = json['blive']
 
-        if (!blive['highlight']){
-            blive['highlight'] = {}
+        // variables
+        let id = group_id
+        let key = 'highlight'
+        let inside = `用户 ${uid} 已在群 ${group_id} 高亮名单内。`
+        let added = `用户 ${uid} 已新增到群 ${group_id} 的高亮名单。`
+
+        if (!group_id){  // in private
+            id = data.sender.user_id
+            key = 'highlight_private'
+            inside = `用户 ${uid} 已在你的高亮名单内。`
+            added = `用户 ${uid} 已新增到你的高亮名单。`
         }
 
-        const highlight = blive['highlight']
-
-        if (!highlight[group_id]){
-            highlight[group_id] = []
+        if (!blive[key]){
+            blive[key] = {}
         }
 
-        if (highlight[group_id].includes(uid)){
-            await send(`用户 ${uid} 已在高亮名单内。`)
+        const highlight = blive[key]
+
+        if (!highlight[id]){
+            highlight[id] = []
+        }
+
+        if (highlight[id].includes(uid)){
+            await send(inside)
             return
         }
 
-        highlight[group_id].push(uid)
+        highlight[id].push(uid)
         await storer.save(json)
-        await send(`用户 ${uid} 已新增到高亮名单。`)
+        await send(added)
     }
 }
 
@@ -59,7 +72,7 @@ class RemoveUser extends CommandExecutor {
 
     async execute({ send, data}, args) {
         if(!args[0]) {
-            await send('缺少参数: <用户id>')
+            await send('缺少参数: <用户id> [群id]')
             return
         }
         const uid = Number.parseInt(args[0])
@@ -67,38 +80,52 @@ class RemoveUser extends CommandExecutor {
             await send(`${uid} 不是一个有效的用户id`)
             return
         }
-        const group_id = data.group_id
+        const group_id = data.group_id ?? args[1]
         const json = await storer.read()
         const blive = json['blive']
         
-        if (!blive['highlight']){
-            blive['highlight'] = {}
+        // variables
+        let id = group_id
+        let key = 'highlight'
+        let non_exist = `用户 ${uid} 并不在群 ${group_id} 高亮名单内。`
+        let removed = `用户 ${uid} 已从群 ${group_id} 的高亮名单中移除。`
+
+        if (!group_id) { // in private
+            id = data.sender.user_id
+            key = 'highlight_private'
+            non_exist = `用户 ${uid} 并不在群 ${group_id} 高亮名单内。`
+            removed = `用户 ${uid} 已从群 ${group_id} 的高亮名单中移除。`
         }
 
-        const highlight = blive['highlight']
+        if (!blive[key]){
+            blive[key] = {}
+        }
 
-        if (!highlight[group_id]){
-            await send(`用户 ${uid} 并不在高亮名单内。`)
+        const highlight = blive[key]
+
+        if (!highlight[id]){
+            await send(non_exist)
             return
         }
 
-        const list = highlight[group_id]
+        const list = highlight[id]
 
         const index = list.indexOf(uid)
 
         if (index == -1){
-            await send(`用户 ${uid} 并不在高亮名单内。`)
+            await send(non_exist)
             return
         }
 
         list.splice(index, 1)
 
         if (list.length == 0){
-            delete highlight[group_id]
+            delete highlight[id]
         }
 
         await storer.save(json)
-        await send(`用户 ${uid} 已从高亮名单中移除。`)
+        await send(removed)
+        
     }
 }
 

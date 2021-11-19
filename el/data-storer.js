@@ -13,6 +13,9 @@ const DEFAULT_VALUES = {
         highlight: {
             '123': []
         },
+        highlight_private: {
+            '123': []
+        },
         listenings: []
     }
 }

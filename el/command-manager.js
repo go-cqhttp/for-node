@@ -1,12 +1,8 @@
-const { commands: roots } = require('../config')
 const { CommandExecutor } = require('./types')
 
 
 
 const invoke = async ({ send, data, commands }, command, args) => {
-    if (!commands){ // 沒有指明則為主指令
-        commands = roots
-    }
     for (const cmd of Object.keys(commands)){
         if (command !== cmd) continue
         const context = commands[cmd]
