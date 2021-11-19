@@ -4,11 +4,19 @@ const { validUser } = require('../el/utils')
 
 const user_cache = {}
 
+const KEY_GROUP = 'highlight'
+const KEY_PRIVATE = 'highlight_private'
+
 class AddUser extends CommandExecutor {
 
     async execute({ send, data }, args) {
+
+        const is_group = data.message_type === 'group'
+
+        const parameters = is_group ? '<用户id>' : '<用户id> [群id]'
+
         if(!args[0]) {
-            await send('缺少参数: <用户id> [群id]')
+            await send(`缺少参数: ${parameters}`)
             return
         }
         const uid = Number.parseInt(args[0])
@@ -29,20 +37,24 @@ class AddUser extends CommandExecutor {
                 return
             }
         }
-        const input_gp_id = args[1] ? Number.parseInt(args[1]) : NaN
-        const group_id = data.group_id ?? input_gp_id
+
+        if (!is_group && args[1]){ // 不是群聊發送，但是有輸入 [群 id]
+            data.group_id = Number.parseInt(args[1])
+        }
+
+        const group_id = data.group_id 
         const json = await storer.read()
         const blive = json['blive']
 
         // variables
         let id = group_id
-        let key = 'highlight'
-        let inside = `用户 ${uid} 已在群 ${group_id} 高亮名单内。`
+        let key = KEY_GROUP
+        let inside = `用户 ${uid} 已在群 ${group_id} 的高亮名单内。`
         let added = `用户 ${uid} 已新增到群 ${group_id} 的高亮名单。`
 
         if (!group_id){  // in private
             id = data.sender.user_id
-            key = 'highlight_private'
+            key = KEY_PRIVATE
             inside = `用户 ${uid} 已在你的高亮名单内。`
             added = `用户 ${uid} 已新增到你的高亮名单。`
         }
@@ -72,32 +84,41 @@ class AddUser extends CommandExecutor {
 class RemoveUser extends CommandExecutor {
 
     async execute({ send, data}, args) {
+
+        const is_group = data.message_type === 'group'
+
+        const parameters = is_group ? '<用户id>' : '<用户id> [群id]'
+
         if(!args[0]) {
-            await send('缺少参数: <用户id> [群id]')
+            await send(`缺少参数: ${parameters}`)
             return
         }
+
         const uid = Number.parseInt(args[0])
         if (isNaN(uid)){
             await send(`${uid} 不是一个有效的用户id`)
             return
         }
         
-        const input_gp_id = args[1] ? Number.parseInt(args[1]) : NaN
-        const group_id = data.group_id ?? input_gp_id
+        if (!is_group && args[1]){ // 不是群聊發送，但是有輸入 [群 id]
+            data.group_id = Number.parseInt(args[1])
+        }
+
+        const group_id = data.group_id
         const json = await storer.read()
         const blive = json['blive']
         
         // variables
         let id = group_id
-        let key = 'highlight'
-        let non_exist = `用户 ${uid} 并不在群 ${group_id} 高亮名单内。`
+        let key = KEY_GROUP
+        let non_exist = `用户 ${uid} 并不在群 ${group_id} 的高亮名单内。`
         let removed = `用户 ${uid} 已从群 ${group_id} 的高亮名单中移除。`
 
         if (!group_id) { // in private
             id = data.sender.user_id
-            key = 'highlight_private'
-            non_exist = `用户 ${uid} 并不在群 ${group_id} 高亮名单内。`
-            removed = `用户 ${uid} 已从群 ${group_id} 的高亮名单中移除。`
+            key = KEY_PRIVATE
+            non_exist = `用户 ${uid} 并不在你的高亮名单内。`
+            removed = `用户 ${uid} 已从你的高亮名单中移除。`
         }
 
         if (!blive[key]){
@@ -136,22 +157,34 @@ class RemoveUser extends CommandExecutor {
 class HighLighting extends CommandExecutor {
 
     async execute({ send, data }, args) {
+
+        const is_group = data.message_type === 'group'
+
+        if (!is_group && args[0]){
+            data.group_id = Number.parseInt(args[0])
+        }
+
         const json = await storer.read()
         const blive = json['blive']
-        const input_group_id = args[0] ? Number.parseInt(args[0]) : NaN
-        const group_id = data.group_id ?? input_group_id
+        const group_id = data.group_id
 
+        // variables
         let id = group_id
-        let key = 'highlight'
+        let key = KEY_GROUP
+        let lst_str = `群 ${group_id} 的高亮用戶列表: `
 
-        if (!group_id){}
-
-        if (!blive['highlight']){
-            blive['highlight'] = {}
+        if (!group_id){
+            id = data.sender.user_id
+            key = KEY_PRIVATE
+            lst_str `你的高亮用戶列表: `
         }
-        const highlight = blive['highlight']
-        const users = highlight[data.group_id] ?? []
-        await send(`高亮用户列表: ${users}`)
+
+        if (!blive[key]){
+            blive[key] = {}
+        }
+        const highlight = blive[key]
+        const users = highlight[id] ?? []
+        await send(`${lst_str} ${users}`)
     }
 }
 

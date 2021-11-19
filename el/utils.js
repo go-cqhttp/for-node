@@ -29,5 +29,12 @@ module.exports = {
         if (res.status !== 200) throw new Error(res.statusText)
         const data = res.data
         return data.code == 0
+    },
+
+    filterAndBroadcast: async (highlight, uid, send, ctx, messages) => {
+        return Object.entries(highlight)
+                    .filter(([id, users]) => users.includes(uid))
+                    .map(([id, users]) => id)
+                    .map(id => send(ctx, id, messages))
     }
 }

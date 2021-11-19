@@ -15,7 +15,7 @@ module.exports = options => {
         if (!isAdmin && !insideOwners){
             // maybe say something for no permission
             console.log(`用户 ${data.sender.nickname} 没有权限去执行指令，已略过`)
-            return // no permission
+            return false // no permission
         }
 
         const msg = data.message.substring(1).trim()
@@ -60,7 +60,7 @@ async function context_send(context, data, msg) {
 }
 
 
-async function context_send_private(contexnt, data, msg) {
+async function context_send_private(context, data, msg) {
     await context.send('send_private_msg', { // i can await a non async function
         user_id: data.sender.user_id,
         message: [
