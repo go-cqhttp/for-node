@@ -29,7 +29,8 @@ class AddUser extends CommandExecutor {
                 return
             }
         }
-        const group_id = data.group_id ?? args[1]
+        const input_gp_id = args[1] ? Number.parseInt(args[1]) : NaN
+        const group_id = data.group_id ?? input_gp_id
         const json = await storer.read()
         const blive = json['blive']
 
@@ -80,7 +81,9 @@ class RemoveUser extends CommandExecutor {
             await send(`${uid} 不是一个有效的用户id`)
             return
         }
-        const group_id = data.group_id ?? args[1]
+        
+        const input_gp_id = args[1] ? Number.parseInt(args[1]) : NaN
+        const group_id = data.group_id ?? input_gp_id
         const json = await storer.read()
         const blive = json['blive']
         
@@ -135,6 +138,14 @@ class HighLighting extends CommandExecutor {
     async execute({ send, data }, args) {
         const json = await storer.read()
         const blive = json['blive']
+        const input_group_id = args[0] ? Number.parseInt(args[0]) : NaN
+        const group_id = data.group_id ?? input_group_id
+
+        let id = group_id
+        let key = 'highlight'
+
+        if (!group_id){}
+
         if (!blive['highlight']){
             blive['highlight'] = {}
         }

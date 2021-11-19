@@ -6,58 +6,37 @@ module.exports = options => {
     return async({data, ws, http}) => {
         if (!data.message) return false
         if (data.message[0] !== '!') return false // 指令用 ! 开头
-        if (data.message_type === 'group') {
-            const isAdmin = data.sender.role === 'admin'
-            const insideOwners = owners && data.sender.user_id in owners
-            if (!isAdmin && !insideOwners){
-                // maybe say something for no permission
-                console.log(`用户 ${data.sender.nickname} 没有权限去执行指令，已略过`)
-                return // no permission
-            }
 
-            const msg = data.message.substring(1).trim()
-            const command = msg.split(' ')
-            const [cmd, ...args] = command
+        const is_group = data.message_type === 'group'
 
-            const actions = {
-                send: async (msg) => await context_send(ws, data, msg),
-                data,
-                commands
-            }
+        const isAdmin = is_group ? data.sender.role === 'admin' : false
+        const insideOwners = owners && data.sender.user_id in owners
 
-            try {
-                return await invoke(actions, cmd, args)
-            }catch(err){
-                console.warn('执行指令时出现错误')
-                console.error(err)
-                return false
-            }
-        } else if (data.message_type === 'private') { // private message
-            const insideOwners = owners && data.sender.user_id in owners
+        if (!isAdmin && !insideOwners){
+            // maybe say something for no permission
+            console.log(`用户 ${data.sender.nickname} 没有权限去执行指令，已略过`)
+            return // no permission
+        }
 
-            if (!insideOwners){
-                console.log(`用户 ${data.sender.nickname} 没有权限去执行指令，已略过`)
-                return // no permission
-            }
+        const msg = data.message.substring(1).trim()
+        const command = msg.split(' ')
+        const [cmd, ...args] = command
 
-            const msg = data.message.substring(1).trim()
-            const command = msg.split(' ')
-            const [cmd, ...args] = command
+        const actions = { data, commands }
 
-            const actions = {
-                send: async (msg) => await context_send_private(ws, data, msg),
-                data,
-                commands
-            }
+        if (is_group) {
+            actions.send = async (msg) => await context_send(ws, data, msg)
+        }else{
+            actions.send = async (msg) => await context_send_private(ws, data, msg)
+        }
 
-            // todo: private command handles
-            try {
-                return await invoke(actions, cmd, args)
-            }catch(err){
-                console.warn('执行指令时出现错误')
-                console.error(err)
-                return false
-            }
+        try {
+            console.debug(`正在处理 ${is_group ? '群' : '私聊'} 指令: ${cmd}, 参数: ${args}`)
+            return await invoke(actions, cmd, args)
+        }catch(err){
+            console.warn('执行指令时出现错误')
+            console.error(err)
+            return false
         }
     }
 }
