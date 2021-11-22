@@ -32,6 +32,7 @@ const invoke = async ({ send, data, commands }, command, args) => {
         }
     }
 
+    await send(`未知参数。可用参数: ${Object.keys(commands ?? {})}`)
     return false
 }
 

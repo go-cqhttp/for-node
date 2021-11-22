@@ -22,9 +22,13 @@
 
 ### Blive-Redis-Server
 
-- 在 https://github.com/eric2788/blive-redis-server 下载可执行文件
+- 下载 python 运行环境
 
-- 在设定档 (settings/config.json) 填入 Redis 连线资料后运行程序
+- 在 https://github.com/eric2788/blive-redis-server 下载源码
+
+- 在设定档 (settings/config.json) 填入 Redis 连线资料
+
+- 输入 `python main.py` 运行程序
 
 ### 本项目 (Vup_monitors)
 
