@@ -1,9 +1,13 @@
-FROM node:latest
+FROM node:17-alpine
+
+WORKDIR /app
+
+RUN cd /app
 
 COPY . .
 
-VOLUME [ 'data' ]
+VOLUME [ "/app/data" ]
 
 RUN npm install
 
-CMD ['npm', 'run', 'start']
+CMD ["npm", "run", "start"]

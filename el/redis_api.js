@@ -5,7 +5,7 @@ const { update, read } = require('./data-storer')
 const { handleMessage } = require('./message-handler')
 
 const subscribing = new Set()
-const client = createClient()
+const client = createClient({ socket: settings.redis })
 
 module.exports = {
     client,
@@ -14,7 +14,7 @@ module.exports = {
         try {
             console.log('正在連接到 Redis Server')
             client.on('error', (err) => console.warn('Redis 連接失敗: ', err));
-            await client.connect({ socket: settings.redis })
+            await client.connect()
             await client.select(settings.redis.database)
             console.log('Redis 已成功連接')
             return client

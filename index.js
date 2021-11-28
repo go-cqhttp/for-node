@@ -22,7 +22,6 @@ async function executePlugins(data) {
   }
 }
 
-
 // 同时启动 Redis 和 WS 监控
 console.log('正在启动 vup monitors...')
 Promise.all([ws.startWS(), connect()])
