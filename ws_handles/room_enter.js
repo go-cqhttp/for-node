@@ -4,7 +4,7 @@ const { send } = require("../bot/http")
 
 module.exports = async ({ws, http}, data) => {
     const enter = data.content.data
-    const liveName = data.name
+    const liveName = data.live_info.name
     const { uname, uid } = enter
 
     const blive = (await storer.read())?.blive

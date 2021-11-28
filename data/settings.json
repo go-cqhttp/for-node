@@ -4,9 +4,14 @@
         "ws": "ws://127.0.0.1:6700"
     },
     "redis": {
-        "host": "172.17.0.1",
+        "host": "127.0.0.1",
         "port": 6379,
         "database": 0
     },
+    "websocket": {
+        "host": "blive.chu77.xyz",
+        "use-tls": true
+    },
+    "source": "websocket",
     "owners": []
 }

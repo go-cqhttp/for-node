@@ -16,7 +16,6 @@ const DEFAULT_VALUES = {
         highlight_private: {
             '123': []
         },
-        listenings: [],
         focus_users: {
             '123': []
         }

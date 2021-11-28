@@ -6,7 +6,7 @@ const storer = require('../el/data-storer')
 
 module.exports = async ({ ws, http }, data) => {
     const superchat = data.content.data
-    const liveName = data.name
+    const liveName = data.live_info.name
     const { uid, price, message, user_info } = superchat
     const { uname } = user_info
 

@@ -2,8 +2,7 @@ const { sendMessage, sendMessagePrivate, filterAndBroadcast } = require("../el/u
 const storer = require('../el/data-storer')
 
 module.exports = async ({ ws, http }, data) => {
-    const liveName = data.name
-
+    const liveName = data.live_info.name
     const info = data.content.info
     const danmaku = info[1]
     const [uid, uname] = info[2]

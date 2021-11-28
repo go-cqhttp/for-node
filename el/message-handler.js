@@ -17,7 +17,7 @@ function handleMessage(string){
             exception.add(message.command)
             return
         }
-        handle({ws, http}, message.data).catch(err => {
+        handle({ws, http}, message.content).catch(err => {
             console.warn(`执行指令 ${message.command} 时出现错误: ${err?.message}`)
             console.error(err)
         })

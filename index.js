@@ -1,6 +1,6 @@
 const { ws, http } = require('./bot')
 const config = require('./config')
-const { connect } = require('./el/redis_api')
+const messager = require('./el/api/message-source')
 
 const plugins = Object.keys(config.plugin).map(name =>
   require(name)(config.plugin[name] || {})
@@ -24,8 +24,10 @@ async function executePlugins(data) {
 
 // 同时启动 Redis 和 WS 监控
 console.log('正在启动 vup monitors...')
-Promise.all([ws.startWS(), connect()])
-  .then(([socket, client]) => {
+Promise.all([ /* ws.startWS(),*/ messager.connect()])
+  .then(() => messager.fetchSubscribing())
+  .then(length => console.log(`已从离线数据重新监控 ${length} 个直播间`))
+  .then(() => {
     ws.listen(data => {
       if (process.env.NODE_ENV === 'development') {
         console.log(data)
