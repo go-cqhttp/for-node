@@ -33,6 +33,11 @@ class MessageSource {
         throw new Error("not implemented")
     }
 
+    async listenAll(rooms){
+        for (const room of rooms) {
+            await this.listen(room, false)
+        }
+    }
 
     async unlisten(room) {
         if (!this.subscribing.has(room)) return false
@@ -65,11 +70,7 @@ class MessageSource {
         const blive = data['blive']
         const rooms = blive.subscribing ?? []
         try {
-
-            for (const room of rooms) {
-                await this.listen(room, false)
-            }
-
+            await this.listenAll(rooms)
         } catch (err) {
             console.warn(`从离线新增订阅时出现错误: ${err}, 五秒后重试`)
             await utils.sleep(5000)

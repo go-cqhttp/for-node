@@ -13,7 +13,7 @@ class WebSocketSouce extends MessageSource {
     constructor(){
         super()
         this.websocketURL = `ws${websocket['use-tls'] ? 's' : ''}://${websocket.host}/ws`
-        const baseURL = `http${websocket['use-tls'] ? 's' : ''}://${websocket.host}/subscribe/`
+        const baseURL = `http${websocket['use-tls'] ? 's' : ''}://${websocket.host}/subscribe`
         this.api = axios.create({
             baseURL,
             timeout: 5000,
@@ -27,7 +27,7 @@ class WebSocketSouce extends MessageSource {
         try {
             this.client = await initWebSocket(this.websocketURL)
             console.log(`已成功连接到 WebSocket 服务器`)
-            this.client.on('message', console.log)
+            this.client.on('message', handleMessage)
         }catch(err){
             console.warn(`連接到 WebSocket 服务器時出現錯誤: ${err?.message ?? err}, 五秒後重連...`)
             await utils.sleep(5000)
@@ -39,7 +39,7 @@ class WebSocketSouce extends MessageSource {
         const form = new FormData()
         form.append('subscribes', room)
         try {
-            await this.api.put('add', form, { headers: form.getHeaders() })
+            await this.api.put('/add', form, { headers: form.getHeaders() })
         }catch(err){
             throw new Error(err?.response?.data?.error ?? err?.response?.data ?? err)
         }
@@ -50,7 +50,19 @@ class WebSocketSouce extends MessageSource {
         const form = new FormData()
         form.append('subscribes', room)
         try {
-            await this.api.put('remove', form, { headers: form.getHeaders() })
+            await this.api.put('/remove', form, { headers: form.getHeaders() })
+        }catch(err){
+            throw new Error(err?.response?.data?.error ?? err?.response?.data ?? err)
+        }
+    }
+
+    async listenAll(rooms){
+        const form = new FormData()
+        for (const room of rooms){
+            form.append('subscribes', room)
+        }
+        try {
+            await this.api.post('', form, { headers: form.getHeaders() })
         }catch(err){
             throw new Error(err?.response?.data?.error ?? err?.response?.data ?? err)
         }

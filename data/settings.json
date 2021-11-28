@@ -9,8 +9,8 @@
         "database": 0
     },
     "websocket": {
-        "host": "blive.chu77.xyz",
-        "use-tls": true
+        "host": "localhost:8080",
+        "use-tls": false
     },
     "source": "websocket",
     "owners": []
