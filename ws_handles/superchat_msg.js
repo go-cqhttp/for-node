@@ -22,7 +22,7 @@ module.exports = async ({ ws, http }, data) => {
             // 那个用户正是那个群的注视用户，所以所有DD行为都要广播
             if (users.includes(uid)) return true
             // 否则，只检查注视用户的直播间
-            return users.includes(data.uid)
+            return users.includes(data.live_info.uid)
         })
     }
 

@@ -3,9 +3,8 @@ const storer = require('../el/data-storer')
 const { send } = require("../bot/http")
 
 module.exports = async ({ws, http}, data) => {
-    const enter = data.content.data
+    const { uname, uid } = data.content.data
     const liveName = data.live_info.name
-    const { uname, uid } = enter
 
     const blive = (await storer.read())?.blive
     const { highlight, highlight_private, focus_users } = blive ?? { highlight: {}, highlight_private: {}, focus_users: {} }
@@ -19,7 +18,7 @@ module.exports = async ({ws, http}, data) => {
             // 那个用户正是那个群的注视用户，所以所有DD行为都要广播
             if (users.includes(uid)) return true
             // 否则，只检查注视用户的直播间
-            return users.includes(data.uid)
+            return users.includes(data.live_info.uid)
         })
     }
 
