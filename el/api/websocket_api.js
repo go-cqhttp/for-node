@@ -23,15 +23,23 @@ class WebSocketSouce extends MessageSource {
         })
     }
 
-    async connect(){
+    async connectInternal(){
         try {
             this.client = await initWebSocket(this.websocketURL)
-            console.log(`已成功连接到 WebSocket 服务器`)
+            console.log(`已成功连接到 Biligo WebSocket 服务器`)
             this.client.on('message', handleMessage)
+            this.client.on('error', err => {
+                console.warn(`Biligo WebSocket 出現錯誤: ${err}, 重新連線中...`)
+                this.connect()
+            })
+            this.client.on('close', () => {
+                console.warn(`Biligo WebSocket 意外關閉, 重新連線中...`)
+                this.connect()
+            })
         }catch(err){
-            console.warn(`連接到 WebSocket 服务器時出現錯誤: ${err?.message ?? err}, 五秒後重連...`)
+            console.warn(`連接到 Biligo WebSocket 服务器時出現錯誤: ${err?.message ?? err}, 五秒後重連...`)
             await utils.sleep(5000)
-            return await this.connect()
+            await this.connectInternal()
         }
     }
 

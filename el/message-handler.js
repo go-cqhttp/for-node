@@ -17,11 +17,6 @@ function handleMessage(string){
             exception.add(message.command)
             return
         }
-        // biligo-live-ws 需要再次反序列化
-        if (typeof message.content === 'string'){
-            message.content = JSON.parse(message.content)
-        }
-        console.log(message.content)
         handle({ws, http}, message).catch(err => {
             console.warn(`执行指令 ${message.command} 时出现错误: ${err?.message}`)
             console.error(err)

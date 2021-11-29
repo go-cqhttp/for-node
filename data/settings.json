@@ -12,6 +12,6 @@
         "host": "localhost:8080",
         "use-tls": false
     },
-    "source": "websocket",
+    "source": "redis",
     "owners": []
 }

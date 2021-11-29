@@ -21,7 +21,7 @@ class MessageSource {
         this.subscribing = new Set()
     }
 
-    async connect() {
+    async connectInternal() {
         throw new Error("not implemented")
     }
 
@@ -59,6 +59,12 @@ class MessageSource {
             })
         }
         return true
+    }
+
+    async connect(){
+        await this.connectInternal()
+        const length = await this.fetchSubscribing()
+        console.log(`已从离线数据重新监控 ${length} 个直播间`)
     }
 
     listening() {
