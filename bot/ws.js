@@ -45,7 +45,7 @@ module.exports = {
   },
   async listen(callback) {
     if (!ws) {
-      console.warn(`WS 尚未连接，五秒后重试。`)
+      //console.warn(`WS 尚未连接，五秒后重试。`)
       await sleep(5000)
       await this.listen(callback)
       return

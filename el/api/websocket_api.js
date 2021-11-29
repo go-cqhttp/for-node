@@ -7,18 +7,21 @@ const FormData = require('form-data')
 const { MessageSource } = require('../types')
 const { handleMessage } = require('../message-handler');
 
+const IDENTIFIER = 'vup_monitors'
+
 class WebSocketSouce extends MessageSource {
 
 
     constructor(){
         super()
-        this.websocketURL = `ws${websocket['use-tls'] ? 's' : ''}://${websocket.host}/ws`
+        this.websocketURL = `ws${websocket['use-tls'] ? 's' : ''}://${websocket.host}/ws?id=${IDENTIFIER}`
         const baseURL = `http${websocket['use-tls'] ? 's' : ''}://${websocket.host}/subscribe`
         this.api = axios.create({
             baseURL,
             timeout: 5000,
             headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Authorization': IDENTIFIER
             }
         })
     }
@@ -80,7 +83,7 @@ class WebSocketSouce extends MessageSource {
 
 async function initWebSocket(url){
     return new Promise((res, rej) => {
-        const client = new WebSocket(url)
+        const client = new WebSocket(url,)
         client.on('open', () => res(client))
         client.on('error', rej)
     })
