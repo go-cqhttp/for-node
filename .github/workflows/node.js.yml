@@ -39,8 +39,7 @@ jobs:
 
     - name: zip the directory
       run: |
-        cd dist
-        zip -r ${{ env.artifact_name }}.zip .
+        zip -r ${{ env.artifact_name }}.zip ./dist
     
     - name: Create Release
       id: create_release
