@@ -1,0 +1,65 @@
+name: Build Executable And Publish
+env:
+  version: 0.1.1
+  artifact_name: vup_monitors
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+on:
+  push:
+    branches: [ test-ga ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: 16.x
+    - name: install dependencies
+      run: npm install
+    - name: building executable
+      run: |
+        npm install pkg -g
+        pkg .
+    - uses: actions/upload-artifact@v2.2.4
+      with:
+        name: ${{ env.artifact_name }}
+        path: dist
+
+    - name: Delete tag and release
+      id: delete-tag-release
+      uses: dev-drprasad/delete-tag-and-release@v0.1.2
+      with:
+        tag_name: ${{ env.version }}
+        delete_release: true
+
+    - name: zip the directory
+      run: |
+        cd dist
+        zip -r ${{ env.artifact_name }}.zip .
+    
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      with:
+        tag_name: ${{ env.version }}
+        release_name: Release ${{ github.repository }}-${{ env.version }}
+        body: |
+          .zip 內有 window 和 linux 的點擊運行程序
+          如欲無需 node 環境，可以下載 zip 直接打開程序運行
+        draft: false
+        prerelease: false
+
+    - name: Upload Release
+      id: upload-release-zip
+      uses: actions/upload-release-asset@v1
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
+        asset_path: ./${{ env.artifact_name }}.zip
+        asset_name: ${{ env.artifact_name }}.zip
+        asset_content_type: application/zip
+    
