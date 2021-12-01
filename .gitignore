@@ -4,6 +4,8 @@ node_modules
 go-cqhttp/*
 !go-cqhttp/.gitkeep
 
+/dist/
+
 .DS_Store
 yarn.lock
 package-lock.json

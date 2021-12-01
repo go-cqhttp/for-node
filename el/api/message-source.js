@@ -2,7 +2,6 @@ const redisSource = require('./redis_api')
 const websocketSource = require('./websocket_api')
 const { source } = require('../../data/settings.json')
 
-
 const sources = {
     ...redisSource,
     ...websocketSource

@@ -6,7 +6,7 @@ const plugins = Object.keys(config.plugin).map(name =>
   require(name)(config.plugin[name] || {})
 )
 
-
+console.log(`已加载 ${plugins.length} 个插件。`)
 
 async function executePlugins(data) {
   for (const plugin of plugins) {

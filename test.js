@@ -16,6 +16,7 @@ function input(str = '') {
 }
 
 async function testCommands(){
+    // eslint-disable-next-line no-constant-condition
     while (true){
         const msg = await input('Enter command: ')
         if (msg === '!exit'){

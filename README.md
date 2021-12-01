@@ -4,55 +4,47 @@
 
 ## 前置
 
-- Redis 服务器 (用于 订阅/发布)
 - [go-cqhttp](https://github.com/Mrs4s/go-cqhttp/) (QQ机器人)
-- [blive-redis-server](https://github.com/eric2788/blive-redis-server) (B站直播间 WS 监控)
+- [biligo-live-ws](https://github.com/eric2788/biligo-live-ws) (B站直播间 WS 监控)
 
 ## 启动
 
-### Redis
-
-- 启动 Redis 服务器
-
-### Go-Cqhttp
+### go-cqhttp
 
 - 在 https://github.com/Mrs4s/go-cqhttp/releases 下载对应平台的可执行文件
 
 - 运行 `go-cqhttp`, 根据提示填写 QQ 号和密码等信息, 参考文档 https://docs.go-cqhttp.org/guide/quick_start.html
 
-### Blive-Redis-Server
+### biligo-live-ws
 
-- 下载 python 运行环境
+- 在 https://github.com/eric2788/biligo-live-ws/releases 下载对应平台的可执行文件
 
-- 在 https://github.com/eric2788/blive-redis-server 下载源码
-
-- 在设定档 (settings/config.json) 填入 Redis 连线资料
-
-- 输入 `python main.py` 运行程序
+- 运行程序
 
 ### 本项目 (Vup_monitors)
 
-- 安装 nodejs 环境 (14.0 以上版本)
+- 下载对应平台的可执行文件
 
-- 下载本项目源码
+- 运行程序后关闭
 
-- 在设定档 (data/settings.json) 填入 Redis 连线资料 及 go-cqhttp 的连线资料
+- 到 `data/settings.json` 填入设定，包括
+    - 设定数据源 `source` 为 `websocket`
+    - 在管理员 `owners` 的设定中添加你的 QQ 号
 
-- 根目录双击 start.bat 运行 (windows 部署)
+- 再运行程序
+
+
+#### 除了 biligo-live-ws 以外的运行方式
+
+- [blive-redis-server](https://github.com/eric2788/blive-redis-server) + [redis](https://www.redis.com.cn/redis-installation.html) 伺服器 (比较麻烦)
+
+    运行 blive-redis-server 和 redis，然后在 `data/settings.json` 设定数据源为 `redis` 即可 
 
 ## 其他部署方式
 
 ### Docker
 
 详见 Dockerfile
-
-### Linux
-
-- 安装 nodejs 环境 (14.0 以上版本), 根目录运行 `npm install` 安装依赖
-
-- 在设定档 (data/settings.json) 填入 Redis 连线资料 及 go-cqhttp 的连线资料
-
-- 根目录使用 `npm run start` 指令运行程序
 
 ## 鸣谢
 

@@ -1,4 +1,4 @@
-const { existsSync, writeFileSync , promises: fs } = require('fs')
+const { existsSync, mkdirSync, writeFileSync , promises: fs } = require('fs')
 
 
 const PATH = './data/storage.json'
@@ -7,6 +7,26 @@ const caches = {
     data: {},
     cached: false
 }
+
+
+const DEFAULT_CONFIG = {
+    "bot": {
+        "http": "http://127.0.0.1:5700",
+        "ws": "ws://127.0.0.1:6700"
+    },
+    "redis": {
+        "host": "127.0.0.1",
+        "port": 6379,
+        "database": 0
+    },
+    "websocket": {
+        "host": "localhost:8080",
+        "use-tls": false
+    },
+    "source": "websocket",
+    "owners": []
+}
+
 
 const DEFAULT_VALUES = {
     blive: {
@@ -21,6 +41,20 @@ const DEFAULT_VALUES = {
         }
     }
 }
+
+// 新增 data 文件夹
+if (!existsSync('./data')){
+    mkdirSync('./data')
+}
+
+
+if (!existsSync('./data/settings.json')) {
+    console.log("找不到 data/settings.json 档案")
+    const config = JSON.stringify(DEFAULT_CONFIG, undefined, 4)
+    writeFileSync('./data/settings.json', config)
+    console.log("已新增默认的 data/settings.json 设定档。")
+}
+
 
 const write_transactions = []
 

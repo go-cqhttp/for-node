@@ -1,5 +1,8 @@
 {
-  "private": true,
+  "name": "vup_monitors",
+  "version": "0.1.1",
+  "bin": "index.js",
+  "main": "index.js",
   "scripts": {
     "nodemon:dev": "cross-env NODE_ENV=development nodemon index.js",
     "dev": "cross-env NODE_ENV=development node index.js",
@@ -13,6 +16,20 @@
     "form-data": "^4.0.0",
     "redis": "^4.0.0-rc.4",
     "ws": "^7.5.6"
+  },
+  "pkg": {
+    "scripts": [
+      "./ws_handles/*.js",
+      "./plugin/*.js",
+      "./el/**/*.js",
+      "./commands/*.js",
+      "./bot/*.js"
+    ],
+    "targets": [
+      "node16-win-x64",
+      "node16-linux"
+    ],
+    "outputPath": "dist"
   },
   "license": "MIT",
   "prettier": "@zhuweiyou/prettier-config",
