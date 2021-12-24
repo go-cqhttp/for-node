@@ -29,7 +29,7 @@ function runJs(input, options) {
         {
           type: 'text',
           data: {
-            text: (error ? '[运行失败]' : '[运行成功]') + '\n' + handleOutput(output),
+            text: (error ? '[运行失败]\n' : '') + handleOutput(output),
           },
         },
       ])
