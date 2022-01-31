@@ -48,7 +48,7 @@ async function listResou(cookie) {
       }
     })
     .filter(item => item.type !== '荐')
-    .slice(0, 10)
+    .slice(1, 11)
 }
 
 async function getList(search, options = {}) {
