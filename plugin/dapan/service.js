@@ -2,6 +2,8 @@ const puppeteer = require('puppeteer')
 const path = require('path')
 const os = require('os')
 
+const screenshot = path.join(os.tmpdir(), `go-cqhttp-node-dapan.png`)
+
 async function getData() {
   let browser
   try {
@@ -35,7 +37,6 @@ async function getData() {
     })
     await page.waitForSelector('.chart')
     const chart = await page.$('.chart')
-    const screenshot = path.join(os.tmpdir(), `go-cqhttp-node-dapan.png`)
     await chart.screenshot({ path: screenshot })
     return [
       {
