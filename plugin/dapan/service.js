@@ -34,8 +34,8 @@ async function getData() {
       `,
     })
     await page.waitForSelector('.chart')
-    const screenshot = path.join(os.tmpdir(), `go-cqhttp-node-dapan.png`)
     const chart = await page.$('.chart')
+    const screenshot = path.join(os.tmpdir(), `go-cqhttp-node-dapan.png`)
     await chart.screenshot({ path: screenshot })
     return [
       {
@@ -68,8 +68,20 @@ async function handler({ message }) {
     return
   }
 
-  return await getData()
+  // 永远返回缓存
+  return [
+    {
+      type: 'image',
+      data: {
+        file: 'file://' + screenshot,
+      },
+    },
+  ]
 }
+
+// 后台自动抓
+getData()
+setInterval(() => getData(), 1000 * 30)
 
 module.exports = {
   handler,
