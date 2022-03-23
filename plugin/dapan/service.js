@@ -90,7 +90,7 @@ async function handler({ message }) {
 
 // 后台自动抓
 getData()
-// setInterval(() => getData(), 1000 * 60)
+setInterval(() => getData(), 1000 * 60)
 
 module.exports = {
   handler,
