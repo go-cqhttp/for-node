@@ -18,10 +18,11 @@ module.exports = options => {
       return
     }
 
-    let [message, search] = data.message.toUpperCase().trim().split(/\s+/)
+    let [message, ...search] = data.message.toUpperCase().trim().split(/\s+/)
     if (!WHITE_LIST.includes(message)) {
       return
     }
+    search = search.join(' ')
 
     if (data.message_type === 'group') {
       ws.send('send_group_msg', {
