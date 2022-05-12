@@ -37,7 +37,6 @@ module.exports = {
 | [blank](plugin/blank)     | 空白插件   |
 | [chives](plugin/chives)   | 韭菜插件   |
 | [dapan](plugin/dapan)     | 大盘插件   |
-| [dog](plugin/dog)         | 舔狗日记   |
 | [fund](plugin/fund)       | 基金查询   |
 | [hot](plugin/hot)         | 热门词汇   |
 | [mm](plugin/mm)           | 美女图片   |
