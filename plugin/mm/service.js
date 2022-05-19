@@ -2,7 +2,7 @@ const random = require('random')
 const axios = require('axios')
 
 const max = 130
-const publicPath = 'https://gitee.com/npm/cos_pics/raw/master/'
+const publicPath = 'https://gh.api.99988866.xyz/https://raw.githubusercontent.com/forked-repositories/cos_pics/master/'
 
 async function getCos() {
   try {
