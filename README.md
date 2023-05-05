@@ -1,4 +1,4 @@
-# go-cqhttp/node
+# go-cqhttp/for-node
 
 > 基于 go-cqhttp 和 nodejs 的 qq 机器人
 
